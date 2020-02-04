@@ -1,6 +1,7 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Nutrivida.API.Data;
 using Nutrivida.Domain.Contracts.Repositories;
 using Nutrivida.Domain.DTOs;
 using System;
@@ -23,6 +24,7 @@ namespace Nutrivida.API.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> GetAll()
         {
             var users = await _userRepository.GetAll();

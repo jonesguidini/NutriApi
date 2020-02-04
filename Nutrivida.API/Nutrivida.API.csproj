@@ -9,7 +9,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.1">
@@ -31,6 +33,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Nutrivida.Business\Nutrivida.Business.csproj" />
     <ProjectReference Include="..\Nutrivida.Data\Nutrivida.Data.csproj" />
+    <ProjectReference Include="..\Nutrivida.IOC\Nutrivida.IOC.csproj" />
   </ItemGroup>
 
 

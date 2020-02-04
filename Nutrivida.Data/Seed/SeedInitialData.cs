@@ -1,7 +1,9 @@
 using Newtonsoft.Json;
 using Nutrivida.Data.Context;
 using Nutrivida.Domain.Entities;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Cryptography;
 
 namespace Nutrivida.API.Data
@@ -14,11 +16,13 @@ namespace Nutrivida.API.Data
             _context = context;
         }
 
-
         public void SeedUsers(){
-            var userData = System.IO.File.ReadAllText("Data/SeedBaseUsers.json");
+            var userData = System.IO.File.ReadAllText("../Nutrivida.Data/Seed/SeedBaseUsers.json");
             var users = JsonConvert.DeserializeObject<List<User>>(userData);
-            
+
+            users = users.Where(x => !_context.Users.Select(y => y.Email).Contains(x.Email)).ToList();
+
+
             foreach (var user in users)
             {
                 byte[] passwordHash, passwordSalt;
@@ -27,7 +31,8 @@ namespace Nutrivida.API.Data
                 user.PasswordHash = passwordHash;
                 user.PasswordSalt = passwordSalt;
                 user.Username = user.Username.ToLower();
-                //user.Email = user.Email.ToLower();
+                user.Email = user.Email.ToLower();
+                user.Created = DateTime.Now;
 
                 _context.Users.Add(user);
             }
