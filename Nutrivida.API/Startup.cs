@@ -14,6 +14,7 @@ using Nutrivida.API.Helpers;
 using Nutrivida.Business.Services;
 using Nutrivida.Data.Context;
 using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
+using Nutrivida.API.Swagger;
 
 namespace Nutrivida.API
 {
@@ -55,7 +56,7 @@ namespace Nutrivida.API
                 loggingBuilder.AddDebug();
             });
 
-            //services.ConfigureSwagger();
+            services.ConfigureSwagger();
 
             services.AddAutoMapper(c => c.AddProfile<AutoMapperConfig>(), typeof(Startup));
 
@@ -111,7 +112,7 @@ namespace Nutrivida.API
                 endpoints.MapControllers();
             });
 
-            //app.UsarSwagger();
+            app.UsarSwagger();
         }
     }
 }
