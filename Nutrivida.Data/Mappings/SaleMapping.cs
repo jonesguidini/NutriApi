@@ -4,15 +4,15 @@ using Nutrivida.Domain.Entities;
 
 namespace Nutrivida.Data.Mappings
 {
-    public class ExpensiveMapping : IEntityTypeConfiguration<Expensive>
+    public class SaleMapping : IEntityTypeConfiguration<Sale>
     {
-        public void Configure(EntityTypeBuilder<Expensive> builder)
+        public void Configure(EntityTypeBuilder<Sale> builder)
         {
-            builder.ToTable("Expensives");
+            builder.ToTable("Sales");
 
             builder.HasKey(x => x.Id)
-                .HasName("ExpensivePK");
-            
+                .HasName("SalePK");
+
             builder.Property(x => x.Description)
                 .IsRequired(true)
                 .HasColumnType("nvarchar(max)")
@@ -28,10 +28,10 @@ namespace Nutrivida.Data.Mappings
                 .HasColumnType("datetime2")
                 .HasColumnName("Created");
 
-            builder.Property(x => x.ExpensiveCategoryId)
+            builder.Property(x => x.SaleCategoryId)
                .IsRequired(true)
                .HasColumnType("int")
-               .HasColumnName("ExpensiveCategoryId");
+               .HasColumnName("SaleCategoryId");
 
             builder.Property(x => x.FinancialRecordId)
                .IsRequired(true)
@@ -39,18 +39,18 @@ namespace Nutrivida.Data.Mappings
                .HasColumnName("FinancialRecordId");
 
             builder
-                .HasOne(x => x.ExpensiveCategory)
-                .WithMany(y => y.Expensives)
-                .HasForeignKey(x => x.ExpensiveCategoryId)
+                .HasOne(x => x.SaleCategory)
+                .WithMany(y => y.Sales)
+                .HasForeignKey(x => x.SaleCategoryId)
                 .OnDelete(DeleteBehavior.NoAction)
-                .HasConstraintName("Expensive.Possui.Categoria");
+                .HasConstraintName("Sale.Possui.Categoria");
 
             builder
                 .HasOne(x => x.FinancialRecord)
-                .WithMany(y => y.Expensives)
+                .WithMany(y => y.Sales)
                 .HasForeignKey(x => x.FinancialRecordId)
                 .OnDelete(DeleteBehavior.NoAction)
-                .HasConstraintName("Expensive.Possui.FinancialRecord");
+                .HasConstraintName("Sale.Possui.FinancialRecord");
         }
     }
 }

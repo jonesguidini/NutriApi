@@ -17,7 +17,7 @@ namespace Nutrivida.Data.Repositories
             _DataContext = DataContext;
         }
 
-        public async Task<IEnumerable<Sale>> GetByFinancialId(Guid financialId)
+        public async Task<IEnumerable<Sale>> GetByFinancialId(int financialId)
         {
             return await _DataContext.Sales.Where(x => x.FinancialRecordId == financialId).ToListAsync();
         }

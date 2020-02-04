@@ -17,11 +17,11 @@ namespace Nutrivida.Domain.Contracts.Services
 
         Task<TEntity> Update(TEntity obj);
 
-        Task Delete(Guid id);
+        Task Delete(int id);
 
-        Task<IQueryable<TEntity>> GetById(Guid id);
+        Task<IQueryable<TEntity>> GetById(int id);
 
-        Task<IQueryable<TEntity>> GetById(Guid id, IList<string> includes);
+        Task<IQueryable<TEntity>> GetById(int id, IList<string> includes);
 
         Task<IQueryable<TEntity>> GetAll();
 

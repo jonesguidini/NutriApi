@@ -51,7 +51,7 @@ namespace Nutrivida.Business.Services
             return obj;
         }
 
-        public async Task Delete(Guid id)
+        public async Task Delete(int id)
         {
             TEntity entity = GetById(id).Result.SingleOrDefault();
 
@@ -90,7 +90,7 @@ namespace Nutrivida.Business.Services
             return await repository.Update(obj);
         }
 
-        public async Task<IQueryable<TEntity>> GetById(Guid id)
+        public async Task<IQueryable<TEntity>> GetById(int id)
         {
             if (id == null)
             {
@@ -105,7 +105,7 @@ namespace Nutrivida.Business.Services
             return await repository.GetById(id);
         }
 
-        public async Task<IQueryable<TEntity>> GetById(Guid id, IList<string> includes)
+        public async Task<IQueryable<TEntity>> GetById(int id, IList<string> includes)
         {
             if (id == null)
             {

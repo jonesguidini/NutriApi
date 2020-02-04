@@ -17,12 +17,14 @@ namespace Nutrivida.Data.Context
             this.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         }
 
+        public DbSet<Expensive> Expensives { get; set; }
+
+        
         public DbSet<User> Users { get; set; }
-        public DbSet<Log> Logs { get; set; }
+        //public DbSet<Log> Logs { get; set; }
         public DbSet<SaleCategory> SaleCategories { get; set; }
         public DbSet<ExpensiveCategory> ExpensiveCategories { get; set; }
         public DbSet<Sale> Sales { get; set; }
-        public DbSet<Expensive> Expensives { get; set; }
         public DbSet<FinancialRecord> FinancialRecords { get; set; }
 
 

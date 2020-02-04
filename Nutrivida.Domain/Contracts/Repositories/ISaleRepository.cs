@@ -7,6 +7,6 @@ namespace Nutrivida.Domain.Contracts.Repositories
 {
     public interface ISaleRepository : IRepositoryBase<Sale>
     {
-         Task<IEnumerable<Sale>> GetByFinancialId(Guid financialId);
+         Task<IEnumerable<Sale>> GetByFinancialId(int financialId);
     }
 }

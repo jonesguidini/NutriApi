@@ -4,16 +4,8 @@ namespace Nutrivida.Domain.Entities
 {
     public abstract class BaseEntity
     {
-        public BaseEntity()
-        {
-            Id = Guid.NewGuid();
-        }
+        public int Id { get; set; }
 
-        public Guid Id { get; set; }
         public DateTime Created { get; set; }
-
-        // Config for Deleted registers
-        public DateTime? DateDeleted { get; set; }
-        public int? DeletedByUserId { get; set; }
     }
 }

@@ -6,5 +6,6 @@ namespace Nutrivida.Domain.Entities
     {
         public string Category { get; set; }
         public ICollection<Expensive> Expensives { get; set; }
+        //public ICollection<HistoricalRegisterByUser> HistoricalRegisters { get; set; }
     }
 }

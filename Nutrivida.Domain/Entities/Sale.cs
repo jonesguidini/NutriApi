@@ -4,10 +4,11 @@ namespace Nutrivida.Domain.Entities
 {
     public class Sale : BaseEntity
     {
-        public double Value { get; set; }
-        public Guid SaleCategoryId { get; set; }
+        public decimal Value { get; set; }
+        public string Description { get; set; }
+        public int SaleCategoryId { get; set; }
         public SaleCategory SaleCategory { get; set; }
-        public Guid FinancialRecordId { get; set; }
+        public int FinancialRecordId { get; set; }
         public FinancialRecord FinancialRecord { get; set; }
     }
 }

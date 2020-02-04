@@ -65,7 +65,7 @@ namespace Nutrivida.Data.Repositories
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public virtual async Task<IQueryable<TEntity>> GetById(Guid id)
+        public virtual async Task<IQueryable<TEntity>> GetById(int id)
         {
             return await Task.Run(() => FindAsync(x => x.Id == id, null));
         }
@@ -76,7 +76,7 @@ namespace Nutrivida.Data.Repositories
         /// <param name="id"></param>
         /// <param name="includes"></param>
         /// <returns></returns>
-        public virtual async Task<IQueryable<TEntity>> GetById(Guid id, IList<string> includes)
+        public virtual async Task<IQueryable<TEntity>> GetById(int id, IList<string> includes)
         {
             IQueryable<TEntity> entidades = DbSet;
 
