@@ -6,7 +6,6 @@ namespace Nutrivida.Domain.Entities.FluentValidation
 {
     public class ValidationBase<TEntity> : AbstractValidator<TEntity>, IFluentValidation<TEntity>  where TEntity : class
     {
-
         private ValidationResult validation;
 
         public ValidationBase() {
