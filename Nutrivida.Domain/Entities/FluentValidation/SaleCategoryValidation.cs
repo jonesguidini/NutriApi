@@ -3,9 +3,9 @@ using Nutrivida.Domain.DTOs;
 
 namespace Nutrivida.Domain.Entities.FluentValidation
 {
-    public class ExpensiveCategoryValidation : ValidationBase<ExpensiveCategoryDto>
+    public class SaleCategoryValidation : ValidationBase<SaleCategoryDto>
     {
-        public ExpensiveCategoryValidation()
+        public SaleCategoryValidation()
         {
             SetValidation();
         }
@@ -13,8 +13,8 @@ namespace Nutrivida.Domain.Entities.FluentValidation
         /// <summary>
         /// Valida as properties da Entidade
         /// </summary>
-        public override void SetValidation() {
-
+        public override void SetValidation()
+        {
             RuleFor(f => f.Category)
                 .NotEmpty().WithMessage("O campo {PropertyName} precisa ser informado.")
                 .Length(2, 100).WithMessage("O campo {PropertyName} precisa ter entre {MinLength} e {MaxLength} caracteres");
