@@ -9,6 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Nutrivida.Business\Nutrivida.Business.csproj" />
     <ProjectReference Include="..\Nutrivida.Data\Nutrivida.Data.csproj" />
     <ProjectReference Include="..\Nutrivida.Domain\Nutrivida.Domain.csproj" />
   </ItemGroup>

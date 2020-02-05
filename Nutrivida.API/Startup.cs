@@ -107,7 +107,7 @@ namespace Nutrivida.API
         {
             // Register your own things directly with Autofac
             builder.ConfigureRepositories();
-            //builder.ConfigurarGerenciadores();
+            builder.ConfigureManagers();
             //builder.ConfigurarServices();
             //builder.ConfigurarValidacoess();
         }

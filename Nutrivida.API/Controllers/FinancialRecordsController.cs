@@ -1,6 +1,8 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Nutrivida.Domain.Contracts.Managers;
 using Nutrivida.Domain.Contracts.Repositories;
 using Nutrivida.Domain.DTOs;
 using Nutrivida.Domain.Entities;
@@ -11,39 +13,52 @@ using System.Threading.Tasks;
 namespace Nutrivida.API.Controllers
 {
     [Authorize]
-    [Route("api/[controller]")]
+    [Route("api/financialrecords")]
     [ApiController]
-    public class FinancialRecordsController : ControllerBase
+    public class FinancialRecordsController : APIController
     {
         private readonly IFinancialRecordRepository _financialRecordRepository;
         private readonly IMapper _mapper;
-        public FinancialRecordsController(IFinancialRecordRepository financialRecordRepository, IMapper mapper)
+        public FinancialRecordsController(IFinancialRecordRepository financialRecordRepository, IMapper mapper, INotificationManager _gerenciadorNotificacoes) : base(_gerenciadorNotificacoes)
         {
             _mapper = mapper;
             _financialRecordRepository = financialRecordRepository;
         }
 
         [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<FinancialRecordDto>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAll()
         {
             var financialRecords = await _financialRecordRepository.GetAll();
             var financialRecordsDto = _mapper.Map<IEnumerable<FinancialRecordDto>>(financialRecords);
-            return Ok(financialRecordsDto);
+            return CustomResponse(financialRecordsDto);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet]
+        [Route("{id}")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(FinancialRecordDto), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetById(int id)
         {
             var financialRecord = await _financialRecordRepository.GetById(id);
+
+            if(financialRecord == null)
+            {
+                NotificarError("Registro Financeiro", "Registro Financeiro não encontrado.");
+                return CustomResponse();
+            }
+
             var financialRecordDto = _mapper.Map<FinancialRecordDto>(financialRecord);
-            return Ok(financialRecordDto);
+            return CustomResponse(financialRecordDto);
         }
 
         [HttpPost]
-        public IActionResult Save(FinancialRecordDto financialRecordDto)
+        [Route("add")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public IActionResult Create(FinancialRecordDto financialRecordDto)
         {
-            if (!ModelState.IsValid)
-                return BadRequest();
+            if (!ModelState.IsValid) return CustomResponse(ModelState);
 
             // mapeamento
             var financialRecord = _mapper.Map<FinancialRecordDto, FinancialRecord>(financialRecordDto);
@@ -51,38 +66,52 @@ namespace Nutrivida.API.Controllers
             _financialRecordRepository.Add(financialRecord);
             _financialRecordRepository.SaveChanges();
 
-            return Ok("Registro financeiro salvo");
+            return CustomResponse("Registro financeiro salvo");
         }
 
-        [HttpPut("{id}")]
+        [HttpPut]
+        [Route("update/{id}")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Update(int id, FinancialRecordDto financialRecordDto)
         {
-            if (!ModelState.IsValid)
-                return BadRequest();
+            if (!ModelState.IsValid) return CustomResponse(ModelState);
 
             var financialRecordBanco = await _financialRecordRepository.GetById(id);
 
             if (financialRecordBanco == null)
-                return BadRequest();
+            {
+                NotificarError("Registro Financeiro", "Registro Financeiro não encontrado.");
+                return CustomResponse();
+            }
 
             // mapeia objeto DTO para versão a ser salva
             _mapper.Map(financialRecordDto, financialRecordBanco);
 
             //_financialRecordRepository.Update(financialRecordBanco);
-            _financialRecordRepository.SaveChanges();
+            await _financialRecordRepository.SaveChanges();
 
-            return Ok("Registro financeiro atualizado com sucesso");
+            return CustomResponse("Registro financeiro atualizado com sucesso");
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete]
+        [Route("delete/{id}")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Delete(int id)
         {
             var financialRecordBanco = await _financialRecordRepository.GetById(id);
 
-            //_financialRecordRepository.Remove(financialRecordBanco);
-            _financialRecordRepository.SaveChanges();
+            if (financialRecordBanco == null)
+            {
+                NotificarError("Registro Financeiro", "Registro Financeiro não encontrado.");
+                return CustomResponse();
+            }
 
-            return Ok("Registro financeiro excluido com sucesso");
+            //_financialRecordRepository.Remove(financialRecordBanco);
+            await _financialRecordRepository.SaveChanges();
+
+            return CustomResponse("Registro financeiro excluido com sucesso");
         }
     }
 }

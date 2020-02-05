@@ -1,8 +1,11 @@
 
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Nutrivida.Domain.Contracts.Managers;
 using Nutrivida.Domain.Contracts.Repositories;
 using Nutrivida.Domain.DTOs;
 using Nutrivida.Domain.Entities;
@@ -14,23 +17,27 @@ using System.Threading.Tasks;
 
 namespace Nutrivida.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/authentication")]
     [ApiController]
-    public class AuthController : ControllerBase
+    public class AuthController : APIController
     {
         private readonly IAuthRepository _repo;
 
         public IConfiguration _config { get; }
         private readonly IMapper _mapper;
 
-        public AuthController(IAuthRepository repo, IConfiguration config, IMapper mapper)
+        public AuthController(IAuthRepository repo, IConfiguration config, IMapper mapper, INotificationManager _gerenciadorNotificacoes) : base(_gerenciadorNotificacoes)
         {
             _mapper = mapper;
             _repo = repo;
             _config = config;
         }
 
-        [HttpPost("register")]
+        [Authorize]
+        [HttpPost]
+        [Route("add")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Register(UserForRegisterDto userRegisterDto)
         {
 
@@ -38,10 +45,11 @@ namespace Nutrivida.API.Controllers
 
             if (await _repo.UserExists(userRegisterDto.Username))
             {
-                return BadRequest("Username already exists");
+                NotificarError("Usuário", "Já existe um usuário cadastrado com esse login.");
+                return CustomResponse();
             }
 
-            // TODO ajustar mapeamento
+            // TODO: ajustar mapeamento
             var userToCreate = new User()
             {
                 Username = userRegisterDto.Username,
@@ -50,17 +58,23 @@ namespace Nutrivida.API.Controllers
 
             var createdUser = await _repo.Register(userToCreate, userRegisterDto.Password);
 
-            return StatusCode(201);
+            return CustomResponse(createdUser);
         }
 
-        [HttpPost("login")]
+        [HttpPost]
+        [Route("login")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Login(UserForLoginDto userForLoginDto)
         {
-
             var userFromRepo = await _repo.Login(userForLoginDto.Username.ToLower(), userForLoginDto.Password);
 
             if (userFromRepo == null)
-                return Unauthorized();
+            {
+                NotificarError("Login", "Usuário ou senha não conferem.");
+                return CustomResponse();
+                //return Unauthorized();
+            }
 
             // cria dois claims
             var claims = new[]
@@ -91,7 +105,7 @@ namespace Nutrivida.API.Controllers
             var token = tokenHandler.CreateToken(tokenDecriptor);
 
             // retorna o tolen gerado
-            return Ok(new
+            return CustomResponse(new
             {
                 token = tokenHandler.WriteToken(token)
             });
