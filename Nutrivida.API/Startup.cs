@@ -84,7 +84,6 @@ namespace Nutrivida.API
             //services.AddIdentity<Usuario, Funcao>()
             //    .AddEntityFrameworkStores<SQLContext>()
             //    .AddDefaultTokenProviders();
-
             //services.ConfigureIdentityOptions();
 
             services.AddMvc(option => option.EnableEndpointRouting = false)
@@ -108,7 +107,7 @@ namespace Nutrivida.API
             // Register your own things directly with Autofac
             builder.ConfigureRepositories();
             builder.ConfigureManagers();
-            //builder.ConfigurarServices();
+            builder.ConfigureServices();
             //builder.ConfigurarValidacoess();
         }
 
@@ -121,14 +120,12 @@ namespace Nutrivida.API
             // If, for some reason, you need a reference to the built container, you
             // can use the convenience extension method GetAutofacRoot.
             //this.AutofacContainer = app.ApplicationServices.GetAutofacRoot();
-
             AppDependencyResolverService.Init(app.ApplicationServices);
 
 
             // If, for some reason, you need a reference to the built container, you
             // can use the convenience extension method GetAutofacRoot.
             this.AutofacContainer = app.ApplicationServices.GetAutofacRoot();
-
 
             if (env.IsDevelopment())
             {
@@ -148,6 +145,7 @@ namespace Nutrivida.API
             app.UseRouting();
 
             app.UseAuthentication();
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -155,7 +153,7 @@ namespace Nutrivida.API
                 endpoints.MapControllers();
             });
 
-            seeder.SeedUsers();
+            //seeder.SeedUsers();
 
             app.UsarSwagger();
         }

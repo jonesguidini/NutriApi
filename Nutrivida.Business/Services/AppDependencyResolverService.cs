@@ -11,7 +11,7 @@ namespace Nutrivida.Business.Services
             get
             {
                 if (_resolver == null)
-                    throw new Exception("AppDependencyResolver not initialized. You should initialize it in Startup class");
+                    throw new Exception("'AppDependencyResolver' não foi inicializado. Você deve iniciá-lo no arquivo Startup");
                 return _resolver;
             }
         }
