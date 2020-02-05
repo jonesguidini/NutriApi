@@ -30,7 +30,7 @@ namespace Nutrivida.API.Controllers
         public async Task<IActionResult> GetAll()
         {
             var users = await _userRepository.GetAll();
-            var usersDto = _mapper.Map<IEnumerable<UserDto>>(users);
+            var usersDto = _mapper.Map<IEnumerable<UserForRegisterDto>>(users);
             //return CustomResponse(usersDto);
             return CustomResponse(usersDto);
         }
@@ -47,7 +47,7 @@ namespace Nutrivida.API.Controllers
                 return CustomResponse();
             }
 
-            var userDto = _mapper.Map<UserDto>(user);
+            var userDto = _mapper.Map<UserForRegisterDto>(user);
             //return CustomResponse(userDto);
             return CustomResponse(userDto);
         }
@@ -63,7 +63,7 @@ namespace Nutrivida.API.Controllers
         [Route("update/{id}")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> Update(int id, UserDto userDto)
+        public async Task<IActionResult> Update(int id, UserForRegisterDto userDto)
         {
             if (!ModelState.IsValid) return CustomResponse(ModelState);
 

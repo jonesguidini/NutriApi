@@ -8,7 +8,7 @@ namespace Nutrivida.API.Helpers
     {
         public AutoMapperConfig()
         {
-            CreateMap<User, UserDto>().ReverseMap();
+            CreateMap<User, UserForRegisterDto>().ReverseMap();
             CreateMap<Sale, SaleDto>().ReverseMap();
             CreateMap<Expensive, ExpensiveDto>().ReverseMap();
             CreateMap<FinancialRecord, FinancialRecordDto>().ReverseMap();
