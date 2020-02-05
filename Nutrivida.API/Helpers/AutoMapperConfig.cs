@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Nutrivida.Domain.DTOs;
 using Nutrivida.Domain.Entities;
+using Nutrivida.Domain.VMs;
 
 namespace Nutrivida.API.Helpers
 {
@@ -8,12 +9,21 @@ namespace Nutrivida.API.Helpers
     {
         public AutoMapperConfig()
         {
-            CreateMap<User, UserForRegisterDto>().ReverseMap();
-            CreateMap<Sale, SaleDto>().ReverseMap();
-            CreateMap<Expensive, ExpensiveDto>().ReverseMap();
-            CreateMap<FinancialRecord, FinancialRecordDto>().ReverseMap();
-            CreateMap<ExpensiveCategory, ExpensiveCategoryDto>().ReverseMap();
-            CreateMap<SaleCategory, SaleCategoryDto>().ReverseMap();
+            // MAPPINGS para DTOS
+            CreateMap<User, UserForRegisterDTO>().ReverseMap();
+            CreateMap<Sale, SaleDTO>().ReverseMap();
+            CreateMap<Expensive, ExpensiveDTO>().ReverseMap();
+            CreateMap<FinancialRecord, FinancialRecordDTO>().ReverseMap();
+            CreateMap<ExpensiveCategory, ExpensiveCategoryDTO>().ReverseMap();
+            CreateMap<SaleCategory, SaleCategoryDTO>().ReverseMap();
+
+            // MAPPINGS para VMS
+            CreateMap<User, UserVM>().ReverseMap();
+            CreateMap<Sale, SaleVM>().ReverseMap();
+            CreateMap<Expensive, ExpensiveVM>().ReverseMap();
+            CreateMap<FinancialRecord, FinancialRecordVM>().ReverseMap();
+            CreateMap<ExpensiveCategory, ExpensiveCategoryVM>().ReverseMap();
+            CreateMap<SaleCategory, SaleCategoryVM>().ReverseMap();
         }
     }
 }

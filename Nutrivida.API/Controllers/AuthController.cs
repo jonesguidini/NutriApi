@@ -38,12 +38,12 @@ namespace Nutrivida.API.Controllers
         [Route("add")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> Register(UserForRegisterDto userRegisterDto)
+        public async Task<IActionResult> Register(UserForRegisterDTO userRegisterDTO)
         {
 
-            userRegisterDto.Username = userRegisterDto.Username.ToLower();
+            userRegisterDTO.Username = userRegisterDTO.Username.ToLower();
 
-            if (await _repo.UserExists(userRegisterDto.Username))
+            if (await _repo.UserExists(userRegisterDTO.Username))
             {
                 NotificarError("Usuário", "Já existe um usuário cadastrado com esse login.");
                 return CustomResponse();
@@ -52,11 +52,11 @@ namespace Nutrivida.API.Controllers
             // TODO: ajustar mapeamento
             var userToCreate = new User()
             {
-                Username = userRegisterDto.Username,
-                Email = userRegisterDto.Email
+                Username = userRegisterDTO.Username,
+                Email = userRegisterDTO.Email
             };
 
-            var createdUser = await _repo.Register(userToCreate, userRegisterDto.Password);
+            var createdUser = await _repo.Register(userToCreate, userRegisterDTO.Password);
 
             return CustomResponse(createdUser);
         }
@@ -65,9 +65,9 @@ namespace Nutrivida.API.Controllers
         [Route("login")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> Login(UserForLoginDto userForLoginDto)
+        public async Task<IActionResult> Login(UserForLoginDTO userForLoginDTO)
         {
-            var userFromRepo = await _repo.Login(userForLoginDto.Username.ToLower(), userForLoginDto.Password);
+            var userFromRepo = await _repo.Login(userForLoginDTO.Username.ToLower(), userForLoginDTO.Password);
 
             if (userFromRepo == null)
             {

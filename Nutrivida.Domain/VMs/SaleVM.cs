@@ -1,9 +1,8 @@
 using Nutrivida.Domain.Entities;
-using System;
 
-namespace Nutrivida.Domain.DTOs
+namespace Nutrivida.Domain.VMs
 {
-    public class SaleDTO : BaseEntity
+    public class SaleVM : BaseEntity
     {
         public decimal Value { get; set; }
         public string Description { get; set; }

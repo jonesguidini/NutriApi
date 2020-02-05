@@ -3,7 +3,7 @@ using Nutrivida.Domain.DTOs;
 
 namespace Nutrivida.Domain.Entities.FluentValidation
 {
-    public class ExpensiveCategoryValidation : ValidationBase<ExpensiveCategoryDto>
+    public class ExpensiveCategoryValidation : ValidationBase<ExpensiveCategoryDTO>
     {
         public ExpensiveCategoryValidation()
         {

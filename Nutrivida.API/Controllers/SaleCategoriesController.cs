@@ -27,18 +27,18 @@ namespace Nutrivida.API.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<SaleCategoryDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IEnumerable<SaleCategoryDTO>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAll()
         {
             var salesCategories = await _SaleCategoryRepository.GetAll();
             //mapper
-            var salesCategoriesDtos = _mapper.Map<IEnumerable<SaleCategoryDto>>(salesCategories);
-            return CustomResponse(salesCategoriesDtos);
+            var salesCategoriesDTOs = _mapper.Map<IEnumerable<SaleCategoryDTO>>(salesCategories);
+            return CustomResponse(salesCategoriesDTOs);
         }
 
         [HttpGet]
         [Route("{id}")]
-        [ProducesResponseType(typeof(SaleCategoryDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(SaleCategoryDTO), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetById(int id)
         {
             var saleCategory = await _SaleCategoryRepository.GetById(id);
@@ -49,20 +49,20 @@ namespace Nutrivida.API.Controllers
                 return CustomResponse();
             }
 
-            var saleDto = _mapper.Map<SaleCategoryDto>(saleCategory);
-            return CustomResponse(saleDto);
+            var saleDTO = _mapper.Map<SaleCategoryDTO>(saleCategory);
+            return CustomResponse(saleDTO);
         }
 
         [HttpPost]
         [Route("add")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public IActionResult Create(SaleCategoryDto saleCategoryDto)
+        public IActionResult Create(SaleCategoryDTO saleCategoryDTO)
         {
             if (!ModelState.IsValid) return CustomResponse(ModelState);
 
             // mapper
-            var saleCategory = _mapper.Map<SaleCategoryDto, SaleCategory>(saleCategoryDto);
+            var saleCategory = _mapper.Map<SaleCategoryDTO, SaleCategory>(saleCategoryDTO);
 
             _SaleCategoryRepository.Add(saleCategory);
             _SaleCategoryRepository.SaveChanges();
@@ -74,7 +74,7 @@ namespace Nutrivida.API.Controllers
         [Route("update/{id}")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> Update(int id, SaleCategoryDto saleCategoryDto)
+        public async Task<IActionResult> Update(int id, SaleCategoryDTO saleCategoryDTO)
         {
             if (!ModelState.IsValid) return CustomResponse(ModelState);
 
@@ -87,7 +87,7 @@ namespace Nutrivida.API.Controllers
             }
 
             // mapper
-            _mapper.Map(saleCategoryDto, saleCategory);
+            _mapper.Map(saleCategoryDTO, saleCategory);
 
             //_SaleCategoryRepository.Update(userBanco);
             await _SaleCategoryRepository.SaveChanges();

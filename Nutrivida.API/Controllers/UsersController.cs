@@ -30,9 +30,9 @@ namespace Nutrivida.API.Controllers
         public async Task<IActionResult> GetAll()
         {
             var users = await _userRepository.GetAll();
-            var usersDto = _mapper.Map<IEnumerable<UserForRegisterDto>>(users);
-            //return CustomResponse(usersDto);
-            return CustomResponse(usersDto);
+            var usersDTO = _mapper.Map<IEnumerable<UserForRegisterDTO>>(users);
+            //return CustomResponse(usersDTO);
+            return CustomResponse(usersDTO);
         }
 
         [HttpGet]
@@ -47,9 +47,9 @@ namespace Nutrivida.API.Controllers
                 return CustomResponse();
             }
 
-            var userDto = _mapper.Map<UserForRegisterDto>(user);
-            //return CustomResponse(userDto);
-            return CustomResponse(userDto);
+            var userDTO = _mapper.Map<UserForRegisterDTO>(user);
+            //return CustomResponse(userDTO);
+            return CustomResponse(userDTO);
         }
 
         // [HttpPost]  --- Já existe cadastro no AuthControllerRegister
@@ -63,7 +63,7 @@ namespace Nutrivida.API.Controllers
         [Route("update/{id}")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> Update(int id, UserForRegisterDto userDto)
+        public async Task<IActionResult> Update(int id, UserForRegisterDTO userDTO)
         {
             if (!ModelState.IsValid) return CustomResponse(ModelState);
 
@@ -76,7 +76,7 @@ namespace Nutrivida.API.Controllers
             }
 
             // mapper
-            _mapper.Map(userDto, userBanco);
+            _mapper.Map(userDTO, userBanco);
 
             //_userRepository.Update(userBanco);
             await _userRepository.SaveChanges();

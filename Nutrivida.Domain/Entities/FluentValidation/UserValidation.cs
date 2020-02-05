@@ -3,7 +3,7 @@ using Nutrivida.Domain.DTOs;
 
 namespace Nutrivida.Domain.Entities.FluentValidation
 {
-    public class UserValidation : ValidationBase<UserForRegisterDto>
+    public class UserValidation : ValidationBase<UserForRegisterDTO>
     {
         public UserValidation()
         {

@@ -26,17 +26,17 @@ namespace Nutrivida.API.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<ExpensiveCategoryDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IEnumerable<ExpensiveCategoryDTO>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAll()
         {
             var expensiveCategories = await _expensiveCategoryRepository.GetAll();
-            var expensiveCategoriesDto = _mapper.Map<IEnumerable<ExpensiveCategoryDto>>(expensiveCategories);
-            return CustomResponse(expensiveCategoriesDto);
+            var expensiveCategoriesDTO = _mapper.Map<IEnumerable<ExpensiveCategoryDTO>>(expensiveCategories);
+            return CustomResponse(expensiveCategoriesDTO);
         }
 
         [HttpGet]
         [Route("{id}")]
-        [ProducesResponseType(typeof(ExpensiveCategoryDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ExpensiveCategoryDTO), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetById(int id)
         {
             var expensiveCategory = await _expensiveCategoryRepository.GetById(id);
@@ -47,20 +47,20 @@ namespace Nutrivida.API.Controllers
                 return CustomResponse();
             }
 
-            var expensiveCategoryDto = _mapper.Map<ExpensiveCategoryDto>(expensiveCategory);
-            return CustomResponse(expensiveCategoryDto);
+            var expensiveCategoryDTO = _mapper.Map<ExpensiveCategoryDTO>(expensiveCategory);
+            return CustomResponse(expensiveCategoryDTO);
         }
 
         [HttpPost]
         [Route("add")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> Create(ExpensiveCategoryDto expensiveCategoryDto)
+        public async Task<IActionResult> Create(ExpensiveCategoryDTO expensiveCategoryDTO)
         {
             if (!ModelState.IsValid) return CustomResponse(ModelState);
 
             // mapeamento
-            var expensiveCategory = _mapper.Map<ExpensiveCategoryDto, ExpensiveCategory>(expensiveCategoryDto);
+            var expensiveCategory = _mapper.Map<ExpensiveCategoryDTO, ExpensiveCategory>(expensiveCategoryDTO);
 
             await _expensiveCategoryRepository.Add(expensiveCategory);
             await _expensiveCategoryRepository.SaveChanges();
@@ -72,7 +72,7 @@ namespace Nutrivida.API.Controllers
         [Route("update/{id}")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> Update(int id, ExpensiveCategoryDto expensiveCategoryDto)
+        public async Task<IActionResult> Update(int id, ExpensiveCategoryDTO expensiveCategoryDTO)
         {
             if (!ModelState.IsValid) return CustomResponse(ModelState);
 
@@ -85,7 +85,7 @@ namespace Nutrivida.API.Controllers
             }
 
             // mapeamento
-            _mapper.Map(expensiveCategoryDto, expensiveCategoryBanco);
+            _mapper.Map(expensiveCategoryDTO, expensiveCategoryBanco);
 
             //_expensiveCategoryRepository.Update(expensiveCategoryBanco);
             await _expensiveCategoryRepository.SaveChanges();

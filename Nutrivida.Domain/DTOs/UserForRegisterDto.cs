@@ -3,7 +3,7 @@ using Nutrivida.Domain.Entities;
 
 namespace Nutrivida.Domain.DTOs
 {
-    public class UserForRegisterDto : BaseEntity
+    public class UserForRegisterDTO : BaseEntity
     {
         public string Username { get; set; }
         public string Email { get; set; }

@@ -1,9 +1,8 @@
-using System;
 using Nutrivida.Domain.Entities;
 
-namespace Nutrivida.Domain.DTOs
+namespace Nutrivida.Domain.VMs
 {
-    public class LogDTO : BaseEntity
+    public class LogVM : BaseEntity
     {
         public string Description { get; set; }
         public int UserId { get; set; }

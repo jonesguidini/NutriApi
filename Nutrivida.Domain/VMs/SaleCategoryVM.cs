@@ -1,8 +1,8 @@
 using Nutrivida.Domain.Entities;
 
-namespace Nutrivida.Domain.DTOs
+namespace Nutrivida.Domain.VMs
 {
-    public class ExpensiveCategoryDTO : BaseEntity
+    public class SaleCategoryVM : BaseEntity
     {
         public string Category { get; set; }
     }
