@@ -1,7 +1,8 @@
+using System.Text;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -11,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Nutrivida.API.Data;
@@ -19,8 +21,6 @@ using Nutrivida.API.Swagger;
 using Nutrivida.Business.Services;
 using Nutrivida.Data.Context;
 using Nutrivida.IOC;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
 
 namespace Nutrivida.API
 {
@@ -47,7 +47,6 @@ namespace Nutrivida.API
             services.AddCors();
             services.AddDbContext<SQLContext>(options => options.UseSqlServer(Configuration.GetConnectionString("NutrividaBD")));
             services.AddControllers();
-
             //services.ConfigureJwtAuthorization();
 
             // adiciona autenticação middleware (Jwt)
@@ -94,7 +93,7 @@ namespace Nutrivida.API
                   opt.SerializerSettings.ContractResolver = new DefaultContractResolver();
               });
 
-            services.AddTransient<SeedInitialData>();
+            //services.AddTransient<SeedInitialData>();
 
         }
 
@@ -114,18 +113,19 @@ namespace Nutrivida.API
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(
             IApplicationBuilder app, 
-            IWebHostEnvironment env, 
-            SeedInitialData seeder)
+            IWebHostEnvironment env
+            //,SeedInitialData seeder
+            )
         {
+            
+            // If, for some reason, you need a reference to the built container, you
+            // can use the convenience extension method GetAutofacRoot.
+            this.AutofacContainer = app.ApplicationServices.GetAutofacRoot();
+
             // If, for some reason, you need a reference to the built container, you
             // can use the convenience extension method GetAutofacRoot.
             //this.AutofacContainer = app.ApplicationServices.GetAutofacRoot();
             AppDependencyResolverService.Init(app.ApplicationServices);
-
-
-            // If, for some reason, you need a reference to the built container, you
-            // can use the convenience extension method GetAutofacRoot.
-            this.AutofacContainer = app.ApplicationServices.GetAutofacRoot();
 
             if (env.IsDevelopment())
             {
