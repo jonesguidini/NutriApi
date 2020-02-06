@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using AutoMapper;
+using FluentValidation;
 using Nutrivida.Domain.Contracts.FluentValidation;
 using Nutrivida.Domain.Contracts.Managers;
 using Nutrivida.Domain.Contracts.Repositories;
@@ -25,11 +26,11 @@ namespace Nutrivida.Business.Services
         {
             //await CheckIfEntityExists(obj);
 
-            //if (!Validate(new ValidationBase<TEntity>(), obj)) return null;
+            //if (!Validate(new FluentValidation<TEntity>(), obj)) return null;
 
-            var objDTO = mapper.Map<ExpensiveCategoryDTO>(obj);
+            //var objDTO = mapper.Map<ExpensiveCategoryDTO>(obj);
 
-            var validacao = await validation.ValidateAsync(objDTO);
+            var validacao = await validation.ValidateAsync(obj);
             await Notify(validacao);
 
             return obj;

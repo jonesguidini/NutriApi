@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FluentValidation;
 using Nutrivida.Domain.Entities;
+using Nutrivida.Domain.Entities.FluentValidation;
 using Nutrivida.Domain.Filters;
 using Nutrivida.Domain.VMs;
 
@@ -33,6 +34,6 @@ namespace Nutrivida.Domain.Contracts.Services
 
         PaginationVM<MT> GetPaginated<MT>(int page, int pageSize, IList<MT> data = null, bool orderByUser = false) where MT : class;
 
-        bool Validate<TV, TE>(TV validation, TE entity) where TV : AbstractValidator<TE> where TE : BaseEntity;
+        bool Validate<TV, TE>(TV validation, TE entity) where TV : FluentValidation<TE> where TE : BaseEntity;
     }
 }

@@ -4,11 +4,11 @@ using Nutrivida.Domain.Contracts.FluentValidation;
 
 namespace Nutrivida.Domain.Entities.FluentValidation
 {
-    public class ValidationBase<TEntity> : AbstractValidator<TEntity>, IFluentValidation<TEntity>  where TEntity : class
+    public class FluentValidation<TEntity> : AbstractValidator<TEntity>, IFluentValidation<TEntity>  where TEntity : class
     {
         private ValidationResult validation;
 
-        public ValidationBase() {
+        public FluentValidation() {
         }
 
         public ValidationResult GetValidations()

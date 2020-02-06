@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Nutrivida.Domain.Contracts.FluentValidation;
+using Nutrivida.Domain.Entities;
 using Nutrivida.Domain.Entities.FluentValidation;
 
 namespace Nutrivida.IOC
@@ -8,7 +9,12 @@ namespace Nutrivida.IOC
     {
         public static void ConfigureValidations(this ContainerBuilder builder)
         {
-            builder.RegisterGeneric(typeof(ValidationBase<>)).As(typeof(IFluentValidation<>));
+            builder.RegisterGeneric(typeof(FluentValidation<>)).As(typeof(IFluentValidation<>));
+
+            //builder.RegisterGeneric(typeof(ExpensiveCategoryValidation)).As(typeof(FluentValidation<ExpensiveCategory>));
+
+            builder.RegisterType<AuthValidation>().As(typeof(IFluentValidation<ExpensiveCategory>))
+                .InstancePerLifetimeScope();
 
             builder.RegisterType<AuthValidation>()
                 .InstancePerLifetimeScope();

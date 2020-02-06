@@ -22,7 +22,7 @@ namespace Nutrivida.Business.Services
         protected readonly IRepositoryBase<TEntity> repository;
         protected readonly IMapper mapper;
         protected readonly IFluentValidation<TEntity> fluentValidation;
-        protected ValidationBase<TEntity> validationBase;
+        protected FluentValidation<TEntity> validationBase;
 
         public ServiceBase(
             IRepositoryBase<TEntity> _repository,
@@ -36,7 +36,7 @@ namespace Nutrivida.Business.Services
             fluentValidation = _fluentValidation;
 
             // configure Validation Base
-            validationBase = new ValidationBase<TEntity>();
+            validationBase = new FluentValidation<TEntity>();
             validationBase.SetValidation(fluentValidation.GetValidations());
         }
 
@@ -61,7 +61,7 @@ namespace Nutrivida.Business.Services
                 await Notify(entity.GetType().Name, "O Objeto informado não existe.");
         }
 
-        public virtual bool Validate<TV, TE>(TV validation, TE entity) where TV : AbstractValidator<TE> where TE : BaseEntity
+        public virtual bool Validate<TV, TE>(TV validation, TE entity) where TV : FluentValidation<TE> where TE : BaseEntity
         {
             var validator = validation.Validate(entity);
 
@@ -76,7 +76,7 @@ namespace Nutrivida.Business.Services
         {
             await CheckIfEntityExists(obj);
 
-            if (!Validate(new ValidationBase<TEntity>(), obj)) return null;
+            if (!Validate(new FluentValidation<TEntity>(), obj)) return null;
 
             return await repository.Add(obj);
         }
@@ -85,7 +85,7 @@ namespace Nutrivida.Business.Services
         {
             await CheckIfEntityExists(obj);
 
-            if (!Validate(new ValidationBase<TEntity>(), obj)) return null;
+            if (!Validate(new FluentValidation<TEntity>(), obj)) return null;
 
             return await repository.Update(obj);
         }

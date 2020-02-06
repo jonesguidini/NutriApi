@@ -3,7 +3,7 @@ using Nutrivida.Domain.DTOs;
 
 namespace Nutrivida.Domain.Entities.FluentValidation
 {
-    public class SaleValidation : ValidationBase<SaleDTO>
+    public class SaleValidation : FluentValidation<SaleDTO>
     {
         public SaleValidation()
         {
