@@ -13,7 +13,7 @@ using Nutrivida.Domain.VMs;
 
 namespace Nutrivida.API.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/expensivecategories")]
     [ApiController]
     public class ExpensiveCategoriesController : APIController
@@ -42,13 +42,7 @@ namespace Nutrivida.API.Controllers
         {
             var expensiveCategory = await _expensiveCategoryService.GetById(id);
 
-            if (!expensiveCategory.Any())
-            {
-                NotificarError("Categoria de Despesa", "A Categoria de despesa informada não existe.");
-                return CustomResponse();
-            }
-
-            ExpensiveCategoryVM expensiveCategoryVM = _mapper.Map<ExpensiveCategoryVM>(expensiveCategory.SingleOrDefault());
+            ExpensiveCategoryVM expensiveCategoryVM = _mapper.Map<ExpensiveCategoryVM>(expensiveCategory);
             return CustomResponse(expensiveCategoryVM);
         }
 
@@ -78,14 +72,14 @@ namespace Nutrivida.API.Controllers
 
             var expensiveCategoryBanco = await _expensiveCategoryService.GetById(id);
 
-            if (expensiveCategoryBanco == null)
+            if (id != expensiveCategoryDTO.Id)
             {
-                NotificarError("Categoria de Despesa", "A Categoria de despesa informada não existe.");
+                NotificarError("Id", "O ID informado não confere com o ID da categoria da despesa.");
                 return CustomResponse();
             }
 
             // mapeamento
-            var expensiveCategoryToUpdate = _mapper.Map(expensiveCategoryDTO, expensiveCategoryBanco).SingleOrDefault();
+            var expensiveCategoryToUpdate = _mapper.Map(expensiveCategoryDTO, expensiveCategoryBanco);
             await _expensiveCategoryService.Update(expensiveCategoryToUpdate);
 
             return CustomResponse("Categoria de despesas atualizada com sucesso!");

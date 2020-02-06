@@ -56,7 +56,7 @@ namespace Nutrivida.Data.Repositories
         /// <returns></returns>
         public virtual async Task Remove(TEntity obj)
         {
-            DbSet.Remove(GetById(obj.Id).Result.SingleOrDefault());
+            DbSet.Remove(await GetById(obj.Id));
             await SaveChanges();
         }
 
@@ -65,9 +65,9 @@ namespace Nutrivida.Data.Repositories
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public virtual async Task<IQueryable<TEntity>> GetById(int id)
+        public virtual async Task<TEntity> GetById(int id)
         {
-            return await Task.Run(() => FindAsync(x => x.Id == id, null));
+            return await Task.Run(() => FindAsync(x => x.Id == id, null).Result.SingleOrDefault());
         }
 
         /// <summary>

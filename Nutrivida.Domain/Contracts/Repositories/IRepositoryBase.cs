@@ -15,7 +15,7 @@ namespace Nutrivida.Domain.Contracts.Repositories
 
         Task Remove(TEntity obj);
 
-        Task<IQueryable<TEntity>> GetById(int id);
+        Task<TEntity> GetById(int id);
 
         Task<IQueryable<TEntity>> GetById(int id, IList<string> includes);
 

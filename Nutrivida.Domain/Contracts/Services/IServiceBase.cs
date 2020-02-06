@@ -19,9 +19,9 @@ namespace Nutrivida.Domain.Contracts.Services
 
         Task Delete(int id);
 
-        Task<IQueryable<TEntity>> GetById(int id);
+        Task<TEntity> GetById(int id);
 
-        Task<IQueryable<TEntity>> GetById(int id, IList<string> includes);
+        Task<TEntity> GetById(int id, IList<string> includes);
 
         Task<IQueryable<TEntity>> GetAll();
 
