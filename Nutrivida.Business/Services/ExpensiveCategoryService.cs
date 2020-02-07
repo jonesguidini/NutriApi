@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
 using FluentValidation;
 using Nutrivida.Domain.Contracts.FluentValidation;
@@ -8,6 +9,7 @@ using Nutrivida.Domain.Contracts.Services;
 using Nutrivida.Domain.DTOs;
 using Nutrivida.Domain.Entities;
 using Nutrivida.Domain.Entities.FluentValidation;
+using Nutrivida.Domain.VMs;
 
 namespace Nutrivida.Business.Services
 {
@@ -21,7 +23,7 @@ namespace Nutrivida.Business.Services
             mapper = _mapper;
         }
 
-        public async Task<ExpensiveCategory> Add(ExpensiveCategoryDTO objDTO)
+        public async Task<ExpensiveCategoryVM> Add(ExpensiveCategoryDTO objDTO)
         {
             // validação Fluent Validation da DTO
             var validacao = await validation.ValidateAsync(objDTO);
@@ -32,11 +34,20 @@ namespace Nutrivida.Business.Services
                 return null;
             }
 
+            //valida se o nome da categoria informada já existe em outro registro
+            if(repository.Search(x => x.Category.ToLower() == objDTO.Category.ToLower()).Result.Any())
+            {
+                await Notify("Categoria", "Já existe uma categoria cadastrada com esse nome.");
+                return null;
+            }
+
             var obj = mapper.Map<ExpensiveCategory>(objDTO);
-            return await base.Add(obj);
+            var objVM = mapper.Map<ExpensiveCategoryVM>(await base.Add(obj));
+
+            return objVM;
         }
 
-        public async Task<ExpensiveCategory> Update(ExpensiveCategoryDTO objDTO)
+        public async Task<ExpensiveCategoryVM> Update(ExpensiveCategoryDTO objDTO)
         {
             // validação Fluent Validation da DTO
             var validacao = await validation.ValidateAsync(objDTO);
@@ -47,8 +58,17 @@ namespace Nutrivida.Business.Services
                 return null;
             }
 
+            //valida se o nome da categoria informada já existe em outro registro
+            if (repository.Search(x => x.Category.ToLower() == objDTO.Category.ToLower() && x.Id != objDTO.Id ).Result.Any())
+            {
+                await Notify("Categoria", "Já existe uma categoria cadastrada com esse nome.");
+                return null;
+            }
+
             var obj = mapper.Map<ExpensiveCategory>(objDTO);
-            return await base.Update(obj);
+            var objVM = mapper.Map<ExpensiveCategoryVM>(await base.Update(obj));
+
+            return objVM;
         }
     }
 }
