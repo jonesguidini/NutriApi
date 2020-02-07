@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Nutrivida.Domain.Contracts.Managers;
 using Nutrivida.Domain.Contracts.Repositories;
+using Nutrivida.Domain.Contracts.Services;
 using Nutrivida.Domain.DTOs;
 using Nutrivida.Domain.Entities;
 using System;
@@ -17,19 +18,19 @@ namespace Nutrivida.API.Controllers
     [ApiController]
     public class FinancialRecordsController : APIController
     {
-        private readonly IFinancialRecordRepository _financialRecordRepository;
+        private readonly IFinancialRecordsService _financialRecordService;
         private readonly IMapper _mapper;
-        public FinancialRecordsController(IFinancialRecordRepository financialRecordRepository, IMapper mapper, INotificationManager _gerenciadorNotificacoes) : base(_gerenciadorNotificacoes)
+        public FinancialRecordsController(IFinancialRecordsService financialRecordService, IMapper mapper, INotificationManager _gerenciadorNotificacoes) : base(_gerenciadorNotificacoes)
         {
             _mapper = mapper;
-            _financialRecordRepository = financialRecordRepository;
+            _financialRecordService = financialRecordService;
         }
 
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<FinancialRecordDTO>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAll()
         {
-            var financialRecords = await _financialRecordRepository.GetAll();
+            var financialRecords = await _financialRecordService.GetAll();
             var financialRecordsDTO = _mapper.Map<IEnumerable<FinancialRecordDTO>>(financialRecords);
             return CustomResponse(financialRecordsDTO);
         }
@@ -40,7 +41,7 @@ namespace Nutrivida.API.Controllers
         [ProducesResponseType(typeof(FinancialRecordDTO), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetById(int id)
         {
-            var financialRecord = await _financialRecordRepository.GetById(id);
+            var financialRecord = await _financialRecordService.GetById(id);
 
             if(financialRecord == null)
             {
@@ -56,15 +57,11 @@ namespace Nutrivida.API.Controllers
         [Route("add")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public IActionResult Create(FinancialRecordDTO financialRecordDTO)
+        public async Task<IActionResult> Create(FinancialRecordDTO financialRecordDTO)
         {
             if (!ModelState.IsValid) return CustomResponse(ModelState);
 
-            // mapeamento
-            var financialRecord = _mapper.Map<FinancialRecordDTO, FinancialRecord>(financialRecordDTO);
-
-            _financialRecordRepository.Add(financialRecord);
-            _financialRecordRepository.SaveChanges();
+            await _financialRecordService.Add(financialRecordDTO);
 
             return CustomResponse("Registro financeiro salvo");
         }
@@ -77,7 +74,7 @@ namespace Nutrivida.API.Controllers
         {
             if (!ModelState.IsValid) return CustomResponse(ModelState);
 
-            var financialRecordBanco = await _financialRecordRepository.GetById(id);
+            var financialRecordBanco = await _financialRecordService.GetById(id);
 
             if (financialRecordBanco == null)
             {
@@ -85,11 +82,7 @@ namespace Nutrivida.API.Controllers
                 return CustomResponse();
             }
 
-            // mapeia objeto DTO para versão a ser salva
-            _mapper.Map(financialRecordDTO, financialRecordBanco);
-
-            //_financialRecordRepository.Update(financialRecordBanco);
-            await _financialRecordRepository.SaveChanges();
+            await _financialRecordService.Update(financialRecordDTO);
 
             return CustomResponse("Registro financeiro atualizado com sucesso");
         }
@@ -100,7 +93,7 @@ namespace Nutrivida.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Delete(int id)
         {
-            var financialRecordBanco = await _financialRecordRepository.GetById(id);
+            var financialRecordBanco = await _financialRecordService.GetById(id);
 
             if (financialRecordBanco == null)
             {
@@ -108,8 +101,7 @@ namespace Nutrivida.API.Controllers
                 return CustomResponse();
             }
 
-            //_financialRecordRepository.Remove(financialRecordBanco);
-            await _financialRecordRepository.SaveChanges();
+            await _financialRecordService.Delete(id);
 
             return CustomResponse("Registro financeiro excluido com sucesso");
         }

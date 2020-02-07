@@ -8,7 +8,6 @@ namespace Nutrivida.Domain.Contracts.Services
     public interface IExpensiveCategoryService: IServiceBase<ExpensiveCategory>
     {
         Task<ExpensiveCategoryVM> Add(ExpensiveCategoryDTO obj);
-
         Task<ExpensiveCategoryVM> Update(ExpensiveCategoryDTO obj);
     }
 }
