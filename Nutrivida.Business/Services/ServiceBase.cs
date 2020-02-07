@@ -61,7 +61,7 @@ namespace Nutrivida.Business.Services
                 await Notify(entity.GetType().Name, "O Objeto informado não existe.");
         }
 
-        public virtual bool Validate<TV, TE>(TV validation, TE entity) where TV : FluentValidation<TE> where TE : BaseEntity
+        public virtual bool Validate<TV, TE>(TV validation, TE entity) where TV : AbstractValidator<TE> where TE : BaseEntity
         {
             var validator = validation.Validate(entity);
 
@@ -127,6 +127,9 @@ namespace Nutrivida.Business.Services
 
         public virtual async Task<IQueryable<TEntity>> GetAll(IList<string> includes)
         {
+            if (includes == null)
+                includes = Enumerable.Empty<string>().ToList();
+
             return await repository.GetAll(includes);
         }
 
@@ -139,7 +142,7 @@ namespace Nutrivida.Business.Services
             return await Task.Run(() => GetAll().Result.Skip((page - 1) * pageSize).Take(pageSize));
         }
 
-        public virtual PaginationVM<MT> GetPaginated<MT>(int page, int pageSize, Expression<Func<TEntity, bool>> where = null, IList<string> includes = null, Expression<Func<TEntity, object>> orderBy = null, TypeOrderBy tipoOrderBy = TypeOrderBy.Ascending, Expression<Func<TEntity, object>> thenBy = null) where MT : class
+        public virtual PaginationVM<MT> GetPaginated<MT>(int page, int pageSize, Expression<Func<TEntity, bool>> where = null, IList<string> includes = null, Expression<Func<TEntity, object>> orderBy = null, TypeOrderBy tipoOrderBy = TypeOrderBy.Ascending, Expression<Func<TEntity, object>> thenBy = null) where MT : BaseEntity
         {
             if (page < 1)
                 return PaginationVM<MT>.Empty();
@@ -176,7 +179,7 @@ namespace Nutrivida.Business.Services
             return new PaginationVM<MT> { Data = ListaMt, TotalPages = totalPages, TotalData = totalRecords };
         }
 
-        public virtual PaginationVM<MT> GetPaginated<MT>(int page, int pageSize, IList<MT> data = null, bool orderByUser = false) where MT : class
+        public virtual PaginationVM<MT> GetPaginated<MT>(int page, int pageSize, IList<MT> data = null, bool orderByUser = false) where MT : BaseEntity
         {
             if (page < 1)
                 return PaginationVM<MT>.Empty();

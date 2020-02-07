@@ -21,20 +21,34 @@ namespace Nutrivida.Business.Services
             mapper = _mapper;
         }
 
-        /*
-        public override async Task<ExpensiveCategory> Update(ExpensiveCategory obj)
+        public async Task<ExpensiveCategory> Add(ExpensiveCategoryDTO objDTO)
         {
-            //await CheckIfEntityExists(obj);
+            // validação Fluent Validation da DTO
+            var validacao = await validation.ValidateAsync(objDTO);
 
-            //if (!Validate(new FluentValidation<TEntity>(), obj)) return null;
+            if (!validacao.IsValid)
+            {
+                await Notify(validacao);
+                return null;
+            }
 
-            //var objDTO = mapper.Map<ExpensiveCategoryDTO>(obj);
-
-            var validacao = await validation.ValidateAsync(obj);
-            await Notify(validacao);
-
-            return obj;
+            var obj = mapper.Map<ExpensiveCategory>(objDTO);
+            return await base.Add(obj);
         }
-        */
+
+        public async Task<ExpensiveCategory> Update(ExpensiveCategoryDTO objDTO)
+        {
+            // validação Fluent Validation da DTO
+            var validacao = await validation.ValidateAsync(objDTO);
+
+            if (!validacao.IsValid)
+            {
+                await Notify(validacao);
+                return null;
+            }
+
+            var obj = mapper.Map<ExpensiveCategory>(objDTO);
+            return await base.Update(obj);
+        }
     }
 }
