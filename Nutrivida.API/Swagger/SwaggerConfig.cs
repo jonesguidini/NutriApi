@@ -14,6 +14,9 @@ namespace Nutrivida.API.Swagger
         {
             services.AddSwaggerGen(c =>
             {
+                
+                //c.SchemaFilter<EnumSchemaFilter>(); // config para definir enums como string no swagger
+
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "NUTRIAPP", Version = "v1", Description = "Documentação da API do Nutrivida" });
                 c.AddSecurityDefinition("bearer",
                     new OpenApiSecurityScheme

@@ -37,7 +37,7 @@ namespace Nutrivida.API
             this.Configuration = builder.Build();
         }
 
-        public IConfiguration Configuration { get; }
+        public IConfiguration Configuration { get; private set; }
 
         public ILifetimeScope AutofacContainer { get; private set; }
 

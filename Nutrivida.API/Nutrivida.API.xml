@@ -1,0 +1,98 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Nutrivida.API</name>
+    </assembly>
+    <members>
+        <member name="M:Nutrivida.API.Controllers.ExpensiveCategoriesController.GetAll">
+            <summary>
+            Retornar todas categorias de despesas
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Nutrivida.API.Controllers.ExpensiveCategoriesController.GetById(System.Int32)">
+            <summary>
+            Retornar categoria de despesa filtrado pelo parametro 'id'
+            </summary>
+            <param name="id">Parâmetro para filtro por ID </param>
+            <returns></returns>
+        </member>
+        <member name="M:Nutrivida.API.Controllers.ExpensiveCategoriesController.Create(Nutrivida.Domain.DTOs.ExpensiveCategoryDTO)">
+            <summary>
+            Criar nova categoria de despesa
+            </summary>
+            <param name="expensiveCategoryDTO">Objeto informado para cadastro do registro</param>
+            <returns></returns>
+        </member>
+        <member name="M:Nutrivida.API.Controllers.ExpensiveCategoriesController.Update(System.Int32,Nutrivida.Domain.DTOs.ExpensiveCategoryDTO)">
+            <summary>
+            Atualizar categoria de despesa
+            </summary>
+            <param name="id">Parâmetro para filtro da categoria a ser alterada</param>
+            <param name="expensiveCategoryDTO">Objeto da categoria a ser alterada </param>
+            <returns></returns>
+        </member>
+        <member name="M:Nutrivida.API.Controllers.ExpensiveCategoriesController.Delete(System.Int32)">
+            <summary>
+            Excluir categoria de despesa
+            </summary>
+            <param name="id">Parâmetro para filtro da categoria a ser exclu´´ida</param>
+            <returns></returns>
+        </member>
+        <member name="M:Nutrivida.API.Controllers.ExpensiveCategoriesController.ListarPaginado(System.Int32,System.Int32,System.Nullable{Nutrivida.Domain.Filters.OrderBy.ExpensiveCategoryOrderBy},Nutrivida.Domain.Filters.TypeOrderBy)">
+            <summary>
+            Retornar registros paginados
+            </summary>
+            <param name="numPagina">Número da pagina corrente</param>
+            <param name="qtdPorPagina">Quantidade por página</param>
+            <param name="orderByFilter">Filtro para ordenação</param>
+            <param name="TipoOrderBy">Tipo de ordenação</param>
+            <returns></returns>
+        </member>
+        <member name="M:Nutrivida.API.Controllers.SaleCategoriesController.GetAll">
+            <summary>
+            Retornar todas categorias de despesas
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Nutrivida.API.Controllers.SaleCategoriesController.GetById(System.Int32)">
+            <summary>
+            Retornar categoria de despesa filtrado pelo parametro 'id'
+            </summary>
+            <param name="id">Parâmetro para filtro por ID </param>
+            <returns></returns>
+        </member>
+        <member name="M:Nutrivida.API.Controllers.SaleCategoriesController.Create(Nutrivida.Domain.DTOs.SaleCategoryDTO)">
+            <summary>
+            Criar nova categoria de despesa
+            </summary>
+            <param name="SaleCategoryDTO">Objeto informado para cadastro do registro</param>
+            <returns></returns>
+        </member>
+        <member name="M:Nutrivida.API.Controllers.SaleCategoriesController.Update(System.Int32,Nutrivida.Domain.DTOs.SaleCategoryDTO)">
+            <summary>
+            Atualizar categoria de despesa
+            </summary>
+            <param name="id">Parâmetro para filtro da categoria a ser alterada</param>
+            <param name="SaleCategoryDTO">Objeto da categoria a ser alterada </param>
+            <returns></returns>
+        </member>
+        <member name="M:Nutrivida.API.Controllers.SaleCategoriesController.Delete(System.Int32)">
+            <summary>
+            Excluir categoria de despesa
+            </summary>
+            <param name="id">Parâmetro para filtro da categoria a ser exclu´´ida</param>
+            <returns></returns>
+        </member>
+        <member name="M:Nutrivida.API.Controllers.SaleCategoriesController.ListarPaginado(System.Int32,System.Int32,System.Nullable{Nutrivida.Domain.Filters.OrderBy.SaleCategoryOrderBy},Nutrivida.Domain.Filters.TypeOrderBy)">
+            <summary>
+            Retornar registros paginados
+            </summary>
+            <param name="numPagina">Número da pagina corrente</param>
+            <param name="qtdPorPagina">Quantidade por página</param>
+            <param name="orderByFilter">Filtro para ordenação</param>
+            <param name="TipoOrderBy">Tipo de ordenação</param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
