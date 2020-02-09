@@ -2,6 +2,7 @@
 using Nutrivida.Domain.DTOs;
 using Nutrivida.Domain.Entities;
 using Nutrivida.Domain.VMs;
+using System.Linq;
 
 namespace Nutrivida.API.Helpers
 {
@@ -19,9 +20,20 @@ namespace Nutrivida.API.Helpers
 
             // MAPPINGS para VMS
             CreateMap<User, UserVM>().ReverseMap();
-            CreateMap<Sale, SaleVM>().ReverseMap();
-            CreateMap<Expensive, ExpensiveVM>().ReverseMap();
-            CreateMap<FinancialRecord, FinancialRecordVM>().ReverseMap();
+            CreateMap<Sale, SaleVM>()
+                .ForMember(x => x.SaleCategory, y => y.MapFrom(z => z.SaleCategory.Category))
+            .ReverseMap();
+
+            CreateMap<Expensive, ExpensiveVM>()
+                .ForMember(x => x.ExpensiveCategory, y => y.MapFrom(z => z.ExpensiveCategory.Category))
+            .ReverseMap();
+
+
+            CreateMap<FinancialRecord, FinancialRecordVM>()
+                .ForMember(x => x.ValueTotalExpensives, y => y.MapFrom(z => z.Expensives.Sum(x => x.Value)))
+                .ForMember(x => x.ValueTotalSales, y => y.MapFrom(z => z.Sales.Sum(x => x.Value)))
+            .ReverseMap();
+
             CreateMap<ExpensiveCategory, ExpensiveCategoryVM>().ReverseMap();
             CreateMap<SaleCategory, SaleCategoryVM>().ReverseMap();
         }

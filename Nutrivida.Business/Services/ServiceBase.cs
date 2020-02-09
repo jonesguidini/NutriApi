@@ -113,7 +113,7 @@ namespace Nutrivida.Business.Services
                 return null;
             }
 
-            TEntity entity = await repository.GetById(id);
+            TEntity entity = includes.Any() ? await repository.GetById(id, includes) : await repository.GetById(id);
 
             await CheckIfEntityExists(entity);
 

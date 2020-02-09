@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Nutrivida.Data.Context;
+using Nutrivida.Domain.Contracts.Managers;
 using Nutrivida.Domain.Contracts.Repositories;
 using Nutrivida.Domain.Entities;
 using System;
@@ -12,7 +13,7 @@ namespace Nutrivida.Data.Repositories
     public class SaleRepository : RepositoryBase<Sale>, ISaleRepository
     {
         private readonly SQLContext _DataContext;
-        public SaleRepository(SQLContext DataContext) : base(DataContext)
+        public SaleRepository(SQLContext DataContext, INotificationManager _gerenciadorNotificacoes) : base(DataContext, _gerenciadorNotificacoes)
         {
             _DataContext = DataContext;
         }

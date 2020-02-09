@@ -7,13 +7,14 @@ using Nutrivida.Domain.Contracts.Repositories;
 using Nutrivida.Domain.Contracts.Services;
 using Nutrivida.Domain.DTOs;
 using Nutrivida.Domain.Entities;
+using Nutrivida.Domain.VMs;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Nutrivida.API.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/financialrecords")]
     [ApiController]
     public class FinancialRecordsController : APIController
@@ -27,29 +28,27 @@ namespace Nutrivida.API.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<FinancialRecordDTO>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IEnumerable<FinancialRecordVM>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAll()
         {
-            var financialRecords = await _financialRecordService.GetAll();
-            var financialRecordsDTO = _mapper.Map<IEnumerable<FinancialRecordDTO>>(financialRecords);
+            IList<string> includes = new List<string> { "Sales", "Expensives"};
+
+            var financialRecords = await _financialRecordService.GetAll(includes);
+            var financialRecordsDTO = _mapper.Map<IEnumerable<FinancialRecordVM>>(financialRecords);
+
             return CustomResponse(financialRecordsDTO);
         }
 
         [HttpGet]
         [Route("{id}")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(FinancialRecordDTO), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(FinancialRecordVM), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetById(int id)
         {
-            var financialRecord = await _financialRecordService.GetById(id);
+            IList<string> includes = new List<string> { "Sales", "Expensives", "Sales.SaleCategory", "Expensives.ExpensiveCategory" };
+            var financialRecord = await _financialRecordService.GetById(id, includes);
 
-            if(financialRecord == null)
-            {
-                NotificarError("Registro Financeiro", "Registro Financeiro não encontrado.");
-                return CustomResponse();
-            }
-
-            var financialRecordDTO = _mapper.Map<FinancialRecordDTO>(financialRecord);
+            var financialRecordDTO = _mapper.Map<FinancialRecordVM>(financialRecord);
             return CustomResponse(financialRecordDTO);
         }
 
@@ -60,6 +59,8 @@ namespace Nutrivida.API.Controllers
         public async Task<IActionResult> Create(FinancialRecordDTO financialRecordDTO)
         {
             if (!ModelState.IsValid) return CustomResponse(ModelState);
+
+            financialRecordDTO.UserId = 1; // TODO alterar para o id do usuário logado
 
             await _financialRecordService.Add(financialRecordDTO);
 
@@ -76,12 +77,6 @@ namespace Nutrivida.API.Controllers
 
             var financialRecordBanco = await _financialRecordService.GetById(id);
 
-            if (financialRecordBanco == null)
-            {
-                NotificarError("Registro Financeiro", "Registro Financeiro não encontrado.");
-                return CustomResponse();
-            }
-
             await _financialRecordService.Update(financialRecordDTO);
 
             return CustomResponse("Registro financeiro atualizado com sucesso");
@@ -94,12 +89,6 @@ namespace Nutrivida.API.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             var financialRecordBanco = await _financialRecordService.GetById(id);
-
-            if (financialRecordBanco == null)
-            {
-                NotificarError("Registro Financeiro", "Registro Financeiro não encontrado.");
-                return CustomResponse();
-            }
 
             await _financialRecordService.Delete(id);
 

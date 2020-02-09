@@ -11,6 +11,8 @@ namespace Nutrivida.Domain.DTOs
         public int NumMeals { get; set; }
         public int NumProducts { get; set; }
 
+        public int UserId { get; set; }
+
         public ICollection<SaleDTO> Sales { get; set; }
         public ICollection<ExpensiveDTO> Expensives { get; set; }
     }

@@ -17,7 +17,7 @@ namespace Nutrivida.Domain.Contracts.Repositories
 
         Task<TEntity> GetById(int id);
 
-        Task<IQueryable<TEntity>> GetById(int id, IList<string> includes);
+        Task<TEntity> GetById(int id, IList<string> includes);
 
         Task<IQueryable<TEntity>> GetAll();
 
@@ -25,6 +25,6 @@ namespace Nutrivida.Domain.Contracts.Repositories
 
         Task<IQueryable<TEntity>> Search(Expression<Func<TEntity, bool>> predicate);
 
-        Task<int> SaveChanges();
+        Task SaveChanges();
     }
 }

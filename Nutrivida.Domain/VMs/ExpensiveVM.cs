@@ -7,6 +7,7 @@ namespace Nutrivida.Domain.VMs
         public decimal Value { get; set; }
         public string Description { get; set; }
         public int ExpensiveCategoryId { get; set; }
+        public string ExpensiveCategory { get; set; }
         public int FinancialRecordId { get; set; }
     }
 }

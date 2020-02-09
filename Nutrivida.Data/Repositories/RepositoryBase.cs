@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Nutrivida.Business.Config;
 using Nutrivida.Data.Context;
+using Nutrivida.Domain.Contracts.Managers;
 using Nutrivida.Domain.Contracts.Repositories;
 using Nutrivida.Domain.Entities;
 using System;
@@ -10,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Nutrivida.Data.Repositories
 {
-    public abstract class RepositoryBase<TEntity> : IRepositoryBase<TEntity> where TEntity : BaseEntity, new()
+    public abstract class RepositoryBase<TEntity> : Notifiable, IRepositoryBase<TEntity> where TEntity : BaseEntity, new()
     {
         private readonly SQLContext sqlContext;
         protected readonly DbSet<TEntity> DbSet;
@@ -19,7 +21,7 @@ namespace Nutrivida.Data.Repositories
         /// Construtor de contexto do banco de dados
         /// </summary>
         /// <param name="_sqlContext"></param>
-        public RepositoryBase(SQLContext _sqlContext)
+        public RepositoryBase(SQLContext _sqlContext, INotificationManager _notificationManager) : base(_notificationManager)
         {
             sqlContext = _sqlContext;
             DbSet = sqlContext.Set<TEntity>();
@@ -76,14 +78,14 @@ namespace Nutrivida.Data.Repositories
         /// <param name="id"></param>
         /// <param name="includes"></param>
         /// <returns></returns>
-        public virtual async Task<IQueryable<TEntity>> GetById(int id, IList<string> includes)
+        public virtual async Task<TEntity> GetById(int id, IList<string> includes)
         {
             IQueryable<TEntity> entidades = DbSet;
 
             foreach (var include in includes)
                 entidades = entidades.Include(include);
 
-            return await Task.Run(() => entidades.Where(x => x.Id == id).AsQueryable());
+            return await Task.Run(() => entidades.Where(x => x.Id == id).AsQueryable().FirstOrDefaultAsync());
         }
 
         /// <summary>
@@ -120,9 +122,17 @@ namespace Nutrivida.Data.Repositories
         /// Efetua commit para save no banco de dados 
         /// </summary>
         /// <returns></returns>
-        public async Task<int> SaveChanges()
+        public async Task SaveChanges()
         {
-            return await sqlContext.SaveChangesAsync();
+            try
+            {
+                await sqlContext.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                var message = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
+                await Notify("Error", message);
+            }
         }
 
         /// <summary>
