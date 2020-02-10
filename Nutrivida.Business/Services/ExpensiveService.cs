@@ -32,13 +32,6 @@ namespace Nutrivida.Business.Services
                 return null;
             }
 
-            //valida se o nome da categoria informada já existe em outro registro
-            //if (repository.Search(x => x.Category.ToLower() == objDTO.Category.ToLower()).Result.Any())
-            //{
-            //    await Notify("Categoria", "Já existe uma categoria cadastrada com esse nome.");
-            //    return null;
-            //}
-
             var obj = mapper.Map<Expensive>(objDTO);
             var objVM = mapper.Map<ExpensiveVM>(await base.Add(obj));
 
@@ -55,13 +48,6 @@ namespace Nutrivida.Business.Services
                 await Notify(validacao);
                 return null;
             }
-
-            //valida se o nome da categoria informada já existe em outro registro
-            //if (repository.Search(x => x.Category.ToLower() == objDTO.Category.ToLower() && x.Id != objDTO.Id).Result.Any())
-            //{
-            //    await Notify("Categoria", "Já existe uma categoria cadastrada com esse nome.");
-            //    return null;
-            //}
 
             var obj = mapper.Map<Expensive>(objDTO);
             var objVM = mapper.Map<ExpensiveVM>(await base.Update(obj));
