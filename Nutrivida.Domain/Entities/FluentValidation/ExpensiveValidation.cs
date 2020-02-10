@@ -16,17 +16,13 @@ namespace Nutrivida.Domain.Entities.FluentValidation
         public override void SetValidation()
         {
             RuleFor(f => f.Value)
-                .GreaterThan(0).WithMessage("O campo {PropertyName} precisa ser informado.");
+                .GreaterThan(0).WithMessage("O campo 'valor' deve ser informado.");
 
             RuleFor(rs => rs.ExpensiveCategoryId)
-                .GreaterThan(0).WithMessage("O campo {PropertyName} precisa ser informado.");
+                .GreaterThan(0).WithMessage("O campo 'categoria' deve ser informado.");
 
             RuleFor(rs => rs.FinancialRecordId)
-                .GreaterThan(0).WithMessage("O campo {PropertyName} precisa ser informado.");
-
-            //RuleFor(f => f.Description)
-            //    .NotEmpty().WithMessage("O campo {PropertyName} precisa ser informado.")
-            //    .Length(2, 100).WithMessage("O campo {PropertyName} precisa ter entre {MinLength} e {MaxLength} caracteres");
+                .GreaterThan(0).WithMessage("O campo 'FinancialRecordID' deve ser informado.");
         }
     }
 }

@@ -16,14 +16,14 @@ namespace Nutrivida.Domain.Entities.FluentValidation
         public override void SetValidation()
         {
             RuleFor(f => f.Username)
-                .NotEmpty().WithMessage("O campo {PropertyName} precisa ser informado.")
+                .NotEmpty().WithMessage("O campo 'usuário' deve ser informado.")
                 .Length(5, 100)
-                .WithMessage("O campo {PropertyName} precisa ter entre {MinLength} e {MaxLength} caracteres");
+                .WithMessage("O campo 'usuário' precisa ter entre {MinLength} e {MaxLength} caracteres");
 
             RuleFor(f => f.Password)
-                .NotEmpty().WithMessage("O campo {PropertyName} precisa ser informado.")
+                .NotEmpty().WithMessage("O campo 'senha' deve ser informado.")
                 .Length(6, 20)
-                .WithMessage("O campo {PropertyName} precisa ter entre {MinLength} e {MaxLength} caracteres");
+                .WithMessage("O campo 'senha' precisa ter entre {MinLength} e {MaxLength} caracteres");
         }
     }
 }

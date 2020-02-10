@@ -15,11 +15,6 @@ namespace Nutrivida.Domain.Entities.FluentValidation
         /// </summary>
         public override void SetValidation()
         {
-            //RuleFor(f => f.NumMeals)
-            //    .GreaterThan(0).WithMessage("O campo {PropertyName} precisa ser informado.");
-
-            //RuleFor(rs => rs.NumProducts)
-            //    .GreaterThan(0).WithMessage("O campo {PropertyName} precisa ser informado.");
 
             RuleFor(rs => rs.Sales)
                 .NotNull().WithMessage("Informe pelo menos uma venda.");
@@ -31,13 +26,6 @@ namespace Nutrivida.Domain.Entities.FluentValidation
                     .WithMessage("Informe pelo menos uma venda ou despesa.");
             });
 
-            //RuleFor(f => f.SalesObservation)
-            //    .NotEmpty().WithMessage("O campo {PropertyName} precisa ser informado.")
-            //    .Length(2, 100).WithMessage("O campo {PropertyName} precisa ter entre {MinLength} e {MaxLength} caracteres");
-
-            //RuleFor(f => f.ExpensivesObservation)
-            //    .NotEmpty().WithMessage("O campo {PropertyName} precisa ser informado.")
-            //    .Length(2, 100).WithMessage("O campo {PropertyName} precisa ter entre {MinLength} e {MaxLength} caracteres");
         }
     }
 }

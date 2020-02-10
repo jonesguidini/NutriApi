@@ -19,8 +19,8 @@ namespace Nutrivida.Domain.Entities.FluentValidation
         public override void SetValidation()
         {
             RuleFor(f => f.Category)
-                .NotEmpty().WithMessage("O campo {PropertyName} precisa ser informado.")
-                .Length(2, 100).WithMessage("O campo {PropertyName} precisa ter entre {MinLength} e {MaxLength} caracteres.");
+                .NotEmpty().WithMessage("O campo 'categoria' deve ser informado.")
+                .Length(2, 100).WithMessage("O campo 'categoria' precisa ter entre {MinLength} e {MaxLength} caracteres.");
         }
 
 

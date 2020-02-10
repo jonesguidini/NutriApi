@@ -27,9 +27,11 @@ namespace Nutrivida.Data.Context
 
             // Get connection string
             var optionsBuilder = new DbContextOptionsBuilder<SQLContext>();
-            var connectionString = config.GetConnectionString("Default");
+            var connectionString = config.GetConnectionString("NutrividaBD");
             Console.WriteLine($"CONNECTION STRING: {connectionString}");
             optionsBuilder.UseSqlServer(connectionString);
+
+            Console.Write("001------");
 
             return new SQLContext(optionsBuilder.Options);
         }
