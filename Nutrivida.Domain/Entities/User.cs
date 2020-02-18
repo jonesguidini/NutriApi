@@ -9,6 +9,14 @@ namespace Nutrivida.Domain.Entities
         public byte[] PasswordSalt { get; set; }
         public string Email { get; set; }
         public ICollection<FinancialRecord> FinancialRecords { get; set; }
+
+        public ICollection<ExpensiveCategory> ExpensiveCategories { get; set; }
+        public ICollection<SaleCategory> SaleCategories { get; set; }
+        public ICollection<Sale> Sale { get; set; }
+        public ICollection<Expensive> Expensive { get; set; }
+
+
+
         //public ICollection<Log> Logs { get; set; }
         //public ICollection<Expensive> Expensives { get; set; }
         //public ICollection<Sale> Sales { get; set; }
