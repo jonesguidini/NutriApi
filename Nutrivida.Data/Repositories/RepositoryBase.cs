@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Nutrivida.Data.Repositories
 {
-    public abstract class RepositoryBase<TEntity> : Notifiable, IRepositoryBase<TEntity> where TEntity : BaseEntity, new()
+    public abstract class RepositoryBase<TEntity> : Notifiable, IRepositoryBase<TEntity> where TEntity : DeletedEntity, new()
     {
         private readonly SQLContext sqlContext;
         protected readonly DbSet<TEntity> DbSet;
@@ -69,7 +69,7 @@ namespace Nutrivida.Data.Repositories
         /// <returns></returns>
         public virtual async Task<TEntity> GetById(int id)
         {
-            return await Task.Run(() => FindAsync(x => x.Id == id, null).Result.SingleOrDefault());
+            return await Task.Run(() => FindAsync(x => x.Id == id && x.IsDeleted == false, null).Result.SingleOrDefault());
         }
 
         /// <summary>
@@ -85,7 +85,7 @@ namespace Nutrivida.Data.Repositories
             foreach (var include in includes)
                 entidades = entidades.Include(include);
 
-            return await Task.Run(() => entidades.Where(x => x.Id == id).AsQueryable().FirstOrDefaultAsync());
+            return await Task.Run(() => entidades.Where(x => x.Id == id && x.IsDeleted == false).AsQueryable().FirstOrDefaultAsync());
         }
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace Nutrivida.Data.Repositories
         /// <returns></returns>
         public virtual async Task<IQueryable<TEntity>> GetAll()
         {
-            return await FindAsync(x => x.Id != null, null);
+            return await FindAsync(x => x.Id != null && x.IsDeleted == false, null);
         }
 
         public virtual async Task<IQueryable<TEntity>> GetAll(IList<string> includes)
@@ -104,7 +104,7 @@ namespace Nutrivida.Data.Repositories
             foreach (var include in includes)
                 entidades = entidades.Include(include);
 
-            return await Task.Run(() => entidades.AsQueryable());
+            return await Task.Run(() => entidades.Where(x => x.IsDeleted == false).AsQueryable());
         }
 
         /// <summary>
@@ -114,7 +114,7 @@ namespace Nutrivida.Data.Repositories
         /// <returns></returns>
         public async Task<IQueryable<TEntity>> Search(Expression<Func<TEntity, bool>> predicate)
         {
-            var registers = await DbSet.AsNoTracking().Where(predicate).ToListAsync();
+            var registers = await DbSet.AsNoTracking().Where(predicate).Where(x => x.IsDeleted == false).ToListAsync();
             return registers.AsQueryable();
         }
 

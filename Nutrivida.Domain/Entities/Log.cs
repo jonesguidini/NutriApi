@@ -2,7 +2,7 @@ using System;
 
 namespace Nutrivida.Domain.Entities
 {
-    public class Log : BaseEntity
+    public class Log : DeletedEntity
     {
         public string Description { get; set; }
         public int UserId { get; set; }

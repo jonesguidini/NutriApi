@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Nutrivida.Domain.Entities;
 
-namespace Nutrivida.Domain.Entities
+namespace Nutrivida.Domain.VMs
 {
-    public abstract class DeletedEntity : BaseEntity
+    public class DeletedEntityVM : BaseEntity
     {
         public bool IsDeleted { get; set; }
         public DateTime? DateDelited { get; set; }
         public int? DeletedByUserId { get; set; }
-        public virtual User? DeletedByUser { get; set; }
+        public string DeletedByUser { get; set; }
     }
 }

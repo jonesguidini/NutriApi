@@ -2,7 +2,7 @@ using Nutrivida.Domain.Entities;
 
 namespace Nutrivida.Domain.DTOs
 {
-    public class ExpensiveCategoryDTO : BaseEntity
+    public class ExpensiveCategoryDTO : DeletedEntity
     {
         public string Category { get; set; }
     }

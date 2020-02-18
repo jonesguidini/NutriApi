@@ -2,13 +2,14 @@ using System.Collections.Generic;
 
 namespace Nutrivida.Domain.Entities
 {
-    public class User : BaseEntity
+    public class User : DeletedEntity
     {
         public string Username { get; set; }
         public byte[] PasswordHash { get; set; }
         public byte[] PasswordSalt { get; set; }
         public string Email { get; set; }
         public ICollection<FinancialRecord> FinancialRecords { get; set; }
+        //public ICollection<FinancialRecord> FinancialRecordsDeletedByUser { get; set; }
 
         public ICollection<ExpensiveCategory> ExpensiveCategories { get; set; }
         public ICollection<SaleCategory> SaleCategories { get; set; }
