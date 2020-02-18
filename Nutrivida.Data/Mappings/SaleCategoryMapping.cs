@@ -30,6 +30,13 @@ namespace Nutrivida.Data.Mappings
                 .HasForeignKey(x => x.SaleCategoryId)
                 .OnDelete(DeleteBehavior.NoAction)
                 .HasConstraintName("SaleCategory.Possui.Expensives");
+
+            builder
+                .HasOne(x => x.DeletedByUser)
+                .WithMany(y => y.SaleCategories)
+                .HasForeignKey(x => x.DeletedByUserId)
+                .OnDelete(DeleteBehavior.NoAction)
+                .HasConstraintName("SaleCategory.Possui.UserDeleted");
         }
     }
 }
