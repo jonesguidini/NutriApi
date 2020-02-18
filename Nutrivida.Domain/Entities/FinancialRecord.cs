@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Nutrivida.Domain.Entities
 {
-    public class FinancialRecord : BaseEntity
+    public class FinancialRecord : DeletedEntity
     {
         public string SalesObservation { get; set; }
         public string ExpensivesObservation { get; set; }

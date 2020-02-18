@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace Nutrivida.Domain.Entities
 {
-    public class SaleCategory : BaseEntity
+    public class SaleCategory : DeletedEntity
     {
         public string Category { get; set; }
         public ICollection<Sale> Sales { get; set; }
