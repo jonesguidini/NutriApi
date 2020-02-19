@@ -79,8 +79,10 @@ namespace Nutrivida.API.Controllers
             // cria dois claims
             var claims = new[]
             {
-                new Claim(ClaimTypes.NameIdentifier, userFromRepo.Id.ToString()),
-                new Claim(ClaimTypes.Name, userFromRepo.Username)
+                new Claim("UserId", userFromRepo.Id.ToString()),
+                new Claim("UserName", userFromRepo.Username)
+                //new Claim(ClaimTypes.NameIdentifier, userFromRepo.Id.ToString()),
+                //new Claim(ClaimTypes.Name, userFromRepo.Username)
             };
 
             // cria a key a ser usada na credencial em base do token informado no arquivo appsettings.json

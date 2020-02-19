@@ -41,6 +41,7 @@ namespace Nutrivida.IOC
             builder.RegisterType<UserService>()
                 .AsImplementedInterfaces()
                 .InstancePerLifetimeScope();
+
         }
     }
 }
