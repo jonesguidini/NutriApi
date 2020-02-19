@@ -15,15 +15,15 @@ namespace Nutrivida.Domain.Contracts.Repositories
 
         Task Remove(TEntity obj);
 
-        Task<TEntity> GetById(int id);
+        Task<TEntity> GetById(int id, bool? getDeletedRegisters = false);
 
-        Task<TEntity> GetById(int id, IList<string> includes);
+        Task<TEntity> GetById(int id, IList<string> includes, bool? getDeletedRegisters = false);
 
-        Task<IQueryable<TEntity>> GetAll();
+        Task<IQueryable<TEntity>> GetAll(bool? getDeletedRegisters = false);
 
-        Task<IQueryable<TEntity>> GetAll(IList<string> includes);
+        Task<IQueryable<TEntity>> GetAll(IList<string> includes, bool? getDeletedRegisters = false);
 
-        Task<IQueryable<TEntity>> Search(Expression<Func<TEntity, bool>> predicate);
+        Task<IQueryable<TEntity>> Search(Expression<Func<TEntity, bool>> predicate, bool? getDeletedRegisters = false);
 
         Task SaveChanges();
     }

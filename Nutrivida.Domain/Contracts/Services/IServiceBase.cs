@@ -20,19 +20,19 @@ namespace Nutrivida.Domain.Contracts.Services
 
         Task Delete(int id);
 
-        Task<TEntity> GetById(int id);
+        Task<TEntity> GetById(int id, bool? getDeletedRegisters = false);
 
-        Task<TEntity> GetById(int id, IList<string> includes);
+        Task<TEntity> GetById(int id, IList<string> includes, bool? getDeletedRegisters = false);
 
-        Task<IQueryable<TEntity>> GetAll();
+        Task<IQueryable<TEntity>> GetAll(bool? getDeletedRegisters = false);
 
-        Task<IQueryable<TEntity>> GetAll(IList<string> includes);
+        Task<IQueryable<TEntity>> GetAll(IList<string> includes, bool? getDeletedRegisters = false);
 
-        Task<IQueryable<TEntity>> GetPaginated(int page, int pageSize);
+        Task<IQueryable<TEntity>> GetPaginated(int page, int pageSize, bool? getDeletedRegisters = false);
 
-        PaginationVM<MT> GetPaginated<MT>(int page, int pageSize, Expression<Func<TEntity, bool>> where = null, IList<string> includes = null, Expression<Func<TEntity, object>> orderBy = null, TypeOrderBy tipoOrderBy = TypeOrderBy.Ascending, Expression<Func<TEntity, object>> thenBy = null) where MT : BaseEntity;
+        PaginationVM<MT> GetPaginated<MT>(int page, int pageSize, Expression<Func<TEntity, bool>> where = null, IList<string> includes = null, Expression<Func<TEntity, object>> orderBy = null, TypeOrderBy tipoOrderBy = TypeOrderBy.Ascending, Expression<Func<TEntity, object>> thenBy = null, bool? getDeletedRegisters = false) where MT : BaseEntity;
 
-        PaginationVM<MT> GetPaginated<MT>(int page, int pageSize, IList<MT> data = null, bool orderByUser = false) where MT : BaseEntity;
+        PaginationVM<MT> GetPaginated<MT>(int page, int pageSize, IList<MT> data = null, bool orderByUser = false, bool? getDeletedRegisters = false) where MT : BaseEntity;
 
         bool Validate<TV, TE>(TV validation, TE entity) where TV : AbstractValidator<TE> where TE : BaseEntity;
     }

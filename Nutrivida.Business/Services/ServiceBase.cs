@@ -90,7 +90,7 @@ namespace Nutrivida.Business.Services
             return await repository.Update(obj);
         }
 
-        public virtual async Task<TEntity> GetById(int id)
+        public virtual async Task<TEntity> GetById(int id, bool? getDeletedRegisters = false)
         {
             if (id == 0)
             {
@@ -98,14 +98,14 @@ namespace Nutrivida.Business.Services
                 return null;
             }
 
-            TEntity entity = await repository.GetById(id);
+            TEntity entity = await repository.GetById(id, getDeletedRegisters);
 
             await CheckIfEntityExists(entity);
 
             return entity;
         }
 
-        public virtual async Task<TEntity> GetById(int id, IList<string> includes)
+        public virtual async Task<TEntity> GetById(int id, IList<string> includes, bool? getDeletedRegisters = false)
         {
             if (id == 0)
             {
@@ -113,41 +113,41 @@ namespace Nutrivida.Business.Services
                 return null;
             }
 
-            TEntity entity = includes.Any() ? await repository.GetById(id, includes) : await repository.GetById(id);
+            TEntity entity = includes.Any() ? await repository.GetById(id, includes, getDeletedRegisters) : await repository.GetById(id);
 
             await CheckIfEntityExists(entity);
 
             return entity;
         }
 
-        public virtual async Task<IQueryable<TEntity>> GetAll()
+        public virtual async Task<IQueryable<TEntity>> GetAll(bool? getDeletedRegisters = false)
         {
-            return await repository.GetAll();
+            return await repository.GetAll(getDeletedRegisters);
         }
 
-        public virtual async Task<IQueryable<TEntity>> GetAll(IList<string> includes)
+        public virtual async Task<IQueryable<TEntity>> GetAll(IList<string> includes, bool? getDeletedRegisters = false)
         {
             if (includes == null)
                 includes = Enumerable.Empty<string>().ToList();
 
-            return await repository.GetAll(includes);
+            return await repository.GetAll(includes, getDeletedRegisters);
         }
 
 
-        public virtual async Task<IQueryable<TEntity>> GetPaginated(int page, int pageSize)
+        public virtual async Task<IQueryable<TEntity>> GetPaginated(int page, int pageSize, bool? getDeletedRegisters = false)
         {
             if (page < 1)
                 return await Task.Run(() => Enumerable.Empty<TEntity>().AsQueryable());
 
-            return await Task.Run(() => GetAll().Result.Skip((page - 1) * pageSize).Take(pageSize));
+            return await Task.Run(() => GetAll(getDeletedRegisters).Result.Skip((page - 1) * pageSize).Take(pageSize));
         }
 
-        public virtual PaginationVM<MT> GetPaginated<MT>(int page, int pageSize, Expression<Func<TEntity, bool>> where = null, IList<string> includes = null, Expression<Func<TEntity, object>> orderBy = null, TypeOrderBy tipoOrderBy = TypeOrderBy.Ascending, Expression<Func<TEntity, object>> thenBy = null) where MT : BaseEntity
+        public virtual PaginationVM<MT> GetPaginated<MT>(int page, int pageSize, Expression<Func<TEntity, bool>> where = null, IList<string> includes = null, Expression<Func<TEntity, object>> orderBy = null, TypeOrderBy tipoOrderBy = TypeOrderBy.Ascending, Expression<Func<TEntity, object>> thenBy = null, bool? getDeletedRegisters = false) where MT : BaseEntity
         {
             if (page < 1)
                 return PaginationVM<MT>.Empty();
 
-            IQueryable<TEntity> result = GetAll(includes).Result;
+            IQueryable<TEntity> result = GetAll(includes, getDeletedRegisters).Result;
 
             if (where != null)
                 result = result.Where(where);
@@ -179,7 +179,7 @@ namespace Nutrivida.Business.Services
             return new PaginationVM<MT> { Data = ListaMt, TotalPages = totalPages, TotalData = totalRecords };
         }
 
-        public virtual PaginationVM<MT> GetPaginated<MT>(int page, int pageSize, IList<MT> data = null, bool orderByUser = false) where MT : BaseEntity
+        public virtual PaginationVM<MT> GetPaginated<MT>(int page, int pageSize, IList<MT> data = null, bool orderByUser = false, bool? getDeletedRegisters = false) where MT : BaseEntity
         {
             if (page < 1)
                 return PaginationVM<MT>.Empty();

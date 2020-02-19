@@ -67,9 +67,9 @@ namespace Nutrivida.Data.Repositories
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public virtual async Task<TEntity> GetById(int id)
+        public virtual async Task<TEntity> GetById(int id, bool? getDeletedRegisters = false)
         {
-            return await Task.Run(() => FindAsync(x => x.Id == id && x.IsDeleted == false, null).Result.SingleOrDefault());
+            return await Task.Run(() => FindAsync(x => x.Id == id && x.IsDeleted == getDeletedRegisters, null).Result.SingleOrDefault());
         }
 
         /// <summary>
@@ -78,33 +78,33 @@ namespace Nutrivida.Data.Repositories
         /// <param name="id"></param>
         /// <param name="includes"></param>
         /// <returns></returns>
-        public virtual async Task<TEntity> GetById(int id, IList<string> includes)
+        public virtual async Task<TEntity> GetById(int id, IList<string> includes, bool? getDeletedRegisters = false)
         {
             IQueryable<TEntity> entidades = DbSet;
 
             foreach (var include in includes)
                 entidades = entidades.Include(include);
 
-            return await Task.Run(() => entidades.Where(x => x.Id == id && x.IsDeleted == false).AsQueryable().FirstOrDefaultAsync());
+            return await Task.Run(() => entidades.Where(x => x.Id == id && x.IsDeleted == getDeletedRegisters).AsQueryable().FirstOrDefaultAsync());
         }
 
         /// <summary>
         /// Método padrão para retornar todas entidades do BD
         /// </summary>
         /// <returns></returns>
-        public virtual async Task<IQueryable<TEntity>> GetAll()
+        public virtual async Task<IQueryable<TEntity>> GetAll(bool? getDeletedRegisters = false)
         {
-            return await FindAsync(x => x.Id != null && x.IsDeleted == false, null);
+            return await FindAsync(x => x.Id != null && x.IsDeleted == getDeletedRegisters, null);
         }
 
-        public virtual async Task<IQueryable<TEntity>> GetAll(IList<string> includes)
+        public virtual async Task<IQueryable<TEntity>> GetAll(IList<string> includes, bool? getDeletedRegisters = false)
         {
             IQueryable<TEntity> entidades = DbSet;
 
             foreach (var include in includes)
                 entidades = entidades.Include(include);
 
-            return await Task.Run(() => entidades.Where(x => x.IsDeleted == false).AsQueryable());
+            return await Task.Run(() => entidades.Where(x => x.IsDeleted == getDeletedRegisters).AsQueryable());
         }
 
         /// <summary>
@@ -112,9 +112,9 @@ namespace Nutrivida.Data.Repositories
         /// </summary>
         /// <param name="predicate"></param>
         /// <returns></returns>
-        public async Task<IQueryable<TEntity>> Search(Expression<Func<TEntity, bool>> predicate)
+        public async Task<IQueryable<TEntity>> Search(Expression<Func<TEntity, bool>> predicate, bool? getDeletedRegisters = false)
         {
-            var registers = await DbSet.AsNoTracking().Where(predicate).Where(x => x.IsDeleted == false).ToListAsync();
+            var registers = await DbSet.AsNoTracking().Where(predicate).Where(x => x.IsDeleted == getDeletedRegisters).ToListAsync();
             return registers.AsQueryable();
         }
 
