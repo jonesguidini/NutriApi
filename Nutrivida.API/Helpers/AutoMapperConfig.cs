@@ -19,23 +19,34 @@ namespace Nutrivida.API.Helpers
             CreateMap<SaleCategory, SaleCategoryDTO>().ReverseMap();
 
             // MAPPINGS para VMS
-            CreateMap<User, UserVM>().ReverseMap();
+            CreateMap<User, UserVM>()
+                .ForMember(x => x.DeletedByUser, y => y.MapFrom(z => z.DeletedByUser.Username))
+                .ReverseMap();
+
             CreateMap<Sale, SaleVM>()
                 .ForMember(x => x.SaleCategory, y => y.MapFrom(z => z.SaleCategory.Category))
+                .ForMember(x => x.DeletedByUser, y => y.MapFrom(z => z.DeletedByUser.Username))
             .ReverseMap();
 
             CreateMap<Expensive, ExpensiveVM>()
                 .ForMember(x => x.ExpensiveCategory, y => y.MapFrom(z => z.ExpensiveCategory.Category))
+                .ForMember(x => x.DeletedByUser, y => y.MapFrom(z => z.DeletedByUser.Username))
             .ReverseMap();
 
 
             CreateMap<FinancialRecord, FinancialRecordVM>()
                 .ForMember(x => x.ValueTotalExpensives, y => y.MapFrom(z => z.Expensives.Sum(x => x.Value)))
                 .ForMember(x => x.ValueTotalSales, y => y.MapFrom(z => z.Sales.Sum(x => x.Value)))
+                .ForMember(x => x.DeletedByUser, y => y.MapFrom(z => z.DeletedByUser.Username))
             .ReverseMap();
 
-            CreateMap<ExpensiveCategory, ExpensiveCategoryVM>().ReverseMap();
-            CreateMap<SaleCategory, SaleCategoryVM>().ReverseMap();
+            CreateMap<ExpensiveCategory, ExpensiveCategoryVM>()
+                .ForMember(x => x.DeletedByUser, y => y.MapFrom(z => z.DeletedByUser.Username))
+                .ReverseMap();
+
+            CreateMap<SaleCategory, SaleCategoryVM>()
+                .ForMember(x => x.DeletedByUser, y => y.MapFrom(z => z.DeletedByUser.Username))
+                .ReverseMap();
         }
     }
 }
