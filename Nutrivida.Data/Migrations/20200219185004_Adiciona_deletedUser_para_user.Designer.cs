@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Nutrivida.Data.Context;
 
 namespace Nutrivida.Data.Migrations
 {
     [DbContext(typeof(SQLContext))]
-    partial class SQLContextModelSnapshot : ModelSnapshot
+    [Migration("20200219185004_Adiciona_deletedUser_para_user")]
+    partial class Adiciona_deletedUser_para_user
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -31,7 +33,7 @@ namespace Nutrivida.Data.Migrations
                         .HasColumnName("Created")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("DateDeleted")
+                    b.Property<DateTime?>("DateDelited")
                         .HasColumnType("datetime2");
 
                     b.Property<int?>("DeletedByUserId")
@@ -86,7 +88,7 @@ namespace Nutrivida.Data.Migrations
                         .HasColumnName("Created")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("DateDeleted")
+                    b.Property<DateTime?>("DateDelited")
                         .HasColumnType("datetime2");
 
                     b.Property<int?>("DeletedByUserId")
@@ -115,7 +117,7 @@ namespace Nutrivida.Data.Migrations
                         .HasColumnName("Created")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("DateDeleted")
+                    b.Property<DateTime?>("DateDelited")
                         .HasColumnType("datetime2");
 
                     b.Property<int?>("DeletedByUserId")
@@ -173,7 +175,7 @@ namespace Nutrivida.Data.Migrations
                         .HasColumnName("Created")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("DateDeleted")
+                    b.Property<DateTime?>("DateDelited")
                         .HasColumnType("datetime2");
 
                     b.Property<int?>("DeletedByUserId")
@@ -228,7 +230,7 @@ namespace Nutrivida.Data.Migrations
                         .HasColumnName("Created")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("DateDeleted")
+                    b.Property<DateTime?>("DateDelited")
                         .HasColumnType("datetime2");
 
                     b.Property<int?>("DeletedByUserId")
@@ -257,7 +259,7 @@ namespace Nutrivida.Data.Migrations
                         .HasColumnName("Created")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("DateDeleted")
+                    b.Property<DateTime?>("DateDelited")
                         .HasColumnType("datetime2");
 
                     b.Property<int?>("DeletedByUserId")
