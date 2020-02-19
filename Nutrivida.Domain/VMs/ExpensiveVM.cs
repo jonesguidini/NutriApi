@@ -2,7 +2,7 @@ using Nutrivida.Domain.Entities;
 
 namespace Nutrivida.Domain.VMs
 {
-    public class ExpensiveVM : BaseEntity
+    public class ExpensiveVM : DeletedEntityVM
     {
         public decimal Value { get; set; }
         public string Description { get; set; }

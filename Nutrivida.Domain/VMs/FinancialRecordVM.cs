@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Nutrivida.Domain.VMs
 {
-    public class FinancialRecordVM : BaseEntity
+    public class FinancialRecordVM : DeletedEntityVM
     {
         public string SalesObservation { get; set; }
         public string ExpensivesObservation { get; set; }
