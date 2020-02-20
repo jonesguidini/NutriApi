@@ -10,38 +10,10 @@ namespace Nutrivida.IOC
         {
             builder.RegisterGeneric(typeof(ServiceBase<>)).As(typeof(IServiceBase<>));
 
-            builder.RegisterType<AuthService>()
-                .AsImplementedInterfaces()
-                .InstancePerLifetimeScope();
-
-            builder.RegisterType<ExpensiveCategoryService>()
-                .AsImplementedInterfaces()
-                .InstancePerLifetimeScope();
-
-            builder.RegisterType<ExpensiveService>()
-                .AsImplementedInterfaces()
-                .InstancePerLifetimeScope();
-
-            builder.RegisterType<FinancialRecordsService>()
-                .AsImplementedInterfaces()
-                .InstancePerLifetimeScope();
-
-            builder.RegisterType<LogService>()
-                .AsImplementedInterfaces()
-                .InstancePerLifetimeScope();
-
-            builder.RegisterType<SaleCategoryService>()
-                .AsImplementedInterfaces()
-                .InstancePerLifetimeScope();
-
-            builder.RegisterType<SaleService>()
-                .AsImplementedInterfaces()
-                .InstancePerLifetimeScope();
-
-            builder.RegisterType<UserService>()
-                .AsImplementedInterfaces()
-                .InstancePerLifetimeScope();
-
+            builder.RegisterAssemblyTypes(typeof(ServiceBase<>).Assembly)
+            .Where(t => t.Name.EndsWith("Service"))
+            .AsImplementedInterfaces()
+            .InstancePerLifetimeScope();
         }
     }
 }

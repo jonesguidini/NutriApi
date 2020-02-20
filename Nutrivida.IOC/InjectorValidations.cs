@@ -11,31 +11,9 @@ namespace Nutrivida.IOC
         {
             builder.RegisterGeneric(typeof(FluentValidation<>)).As(typeof(IFluentValidation<>));
 
-            //builder.RegisterGeneric(typeof(ExpensiveCategoryValidation)).As(typeof(FluentValidation<ExpensiveCategory>));
-
-            //builder.RegisterType<AuthValidation>().As(typeof(IFluentValidation<ExpensiveCategory>))
-            //    .InstancePerLifetimeScope();
-
-            builder.RegisterType<AuthValidation>()
-                .InstancePerLifetimeScope();
-
-            builder.RegisterType<ExpensiveCategoryValidation>()
-                .InstancePerLifetimeScope();
-
-            builder.RegisterType<ExpensiveValidation>()
-                .InstancePerLifetimeScope();
-
-            builder.RegisterType<FinancialRecordValidation>()
-                .InstancePerLifetimeScope();
-
-            builder.RegisterType<SaleCategoryValidation>()
-                .InstancePerLifetimeScope();
-
-            builder.RegisterType<SaleValidation>()
-                .InstancePerLifetimeScope();
-
-            builder.RegisterType<UserValidation>()
-                .InstancePerLifetimeScope();
+            builder.RegisterAssemblyTypes(typeof(FluentValidation<>).Assembly)
+            .Where(t => t.Name.EndsWith("Validation"))
+            .InstancePerLifetimeScope();
         }
     }
 }

@@ -18,37 +18,10 @@ namespace Nutrivida.IOC
             builder.RegisterGeneric(typeof(RepositoryBase<>)).As(typeof(IRepositoryBase<>));
             //builder.RegisterGeneric(typeof(BaseIdentityRepository<>)).As(typeof(IIdentityRepository<>));
 
-            builder.RegisterType<AuthRepository>()
-                .AsImplementedInterfaces()
-                .InstancePerLifetimeScope();
-
-            builder.RegisterType<ExpensiveCategoryRepository>()
-                .AsImplementedInterfaces()
-                .InstancePerLifetimeScope();
-
-            builder.RegisterType<ExpensiveRepository>()
-                .AsImplementedInterfaces()
-                .InstancePerLifetimeScope();
-
-            builder.RegisterType<FinancialRecordsRepository>()
-                .AsImplementedInterfaces()
-                .InstancePerLifetimeScope();
-
-            builder.RegisterType<LogRepository>()
-                .AsImplementedInterfaces()
-                .InstancePerLifetimeScope();
-
-            builder.RegisterType<SaleCategoryRepository>()
-                .AsImplementedInterfaces()
-                .InstancePerLifetimeScope();
-
-            builder.RegisterType<SaleRepository>()
-                .AsImplementedInterfaces()
-                .InstancePerLifetimeScope();
-
-            builder.RegisterType<UserRepository>()
-                .AsImplementedInterfaces()
-                .InstancePerLifetimeScope();
+            builder.RegisterAssemblyTypes(typeof(RepositoryBase<>).Assembly)
+            .Where(t => t.Name.EndsWith("Repository"))
+            .AsImplementedInterfaces()
+            .InstancePerLifetimeScope();
         }
     }
 }
