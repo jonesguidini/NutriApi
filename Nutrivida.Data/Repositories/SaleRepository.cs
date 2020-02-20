@@ -13,14 +13,17 @@ namespace Nutrivida.Data.Repositories
     public class SaleRepository : RepositoryBase<Sale>, ISaleRepository
     {
         private readonly SQLContext _DataContext;
+        private DbSet<Sale> _sales;
+
         public SaleRepository(SQLContext DataContext, INotificationManager _gerenciadorNotificacoes) : base(DataContext, _gerenciadorNotificacoes)
         {
             _DataContext = DataContext;
+            _sales = DataContext.Set<Sale>();
         }
 
         public async Task<IEnumerable<Sale>> GetByFinancialId(int financialId)
         {
-            return await _DataContext.Sales.Where(x => x.FinancialRecordId == financialId).ToListAsync();
+            return await _sales.Where(x => x.FinancialRecordId == financialId).ToListAsync();
         }
     }
 }

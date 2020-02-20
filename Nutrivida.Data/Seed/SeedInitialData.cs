@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Nutrivida.Data.Context;
 using Nutrivida.Domain.Entities;
@@ -11,16 +12,19 @@ namespace Nutrivida.API.Data
     public class SeedInitialData
     {
         private readonly SQLContext _context;
+        private DbSet<User> _users;
+
         public SeedInitialData(SQLContext context)
         {
             _context = context;
+            _users = context.Set<User>();
         }
 
         public void SeedUsers(){
             var userData = System.IO.File.ReadAllText("../Nutrivida.Data/Seed/SeedBaseUsers.json");
             var users = JsonConvert.DeserializeObject<List<User>>(userData);
 
-            users = users.Where(x => !_context.Users.Select(y => y.Email).Contains(x.Email)).ToList();
+            users = users.Where(x => !_users.Select(y => y.Email).Contains(x.Email)).ToList();
 
 
             foreach (var user in users)
@@ -34,7 +38,7 @@ namespace Nutrivida.API.Data
                 user.Email = user.Email.ToLower();
                 user.Created = DateTime.Now;
 
-                _context.Users.Add(user);
+                _users.Add(user);
             }
 
             _context.SaveChanges();

@@ -93,7 +93,7 @@ namespace Nutrivida.API
                   opt.SerializerSettings.ContractResolver = new DefaultContractResolver();
               });
 
-            //services.AddTransient<SeedInitialData>();
+            //services.AddTransient<SeedInitialData>(); // descomente aqui para habilitar Seed dos dados iniciais
 
         }
 
@@ -114,7 +114,7 @@ namespace Nutrivida.API
         public void Configure(
             IApplicationBuilder app, 
             IWebHostEnvironment env
-            //,SeedInitialData seeder
+            //,SeedInitialData seeder // descomente aqui para habilitar Seed dos dados iniciais
             )
         {
             
@@ -153,7 +153,7 @@ namespace Nutrivida.API
                 endpoints.MapControllers();
             });
 
-            //seeder.SeedUsers();
+            //seeder.SeedUsers(); // descomente aqui para habilitar Seed dos dados iniciais
 
             app.UsarSwagger();
         }

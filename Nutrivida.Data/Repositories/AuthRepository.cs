@@ -10,15 +10,17 @@ namespace Nutrivida.Data.Repositories
     public class AuthRepository : IAuthRepository
     {
         private readonly SQLContext _context;
+        private DbSet<User> _users;
 
         public AuthRepository(SQLContext context)
         {
             _context = context;
+            _users = context.Set<User>();
         }
 
         public async Task<User> Login(string username, string password)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(x => x.Username == username);
+            var user = await _users.FirstOrDefaultAsync(x => x.Username == username);
 
             if(user == null)
                 return null;
@@ -50,7 +52,7 @@ namespace Nutrivida.Data.Repositories
             user.PasswordHash = passwordHash;
             user.PasswordSalt = passwordSalt;
 
-            await _context.Users.AddAsync(user);
+            await _users.AddAsync(user);
             await _context.SaveChangesAsync();
 
             return user;
@@ -67,7 +69,7 @@ namespace Nutrivida.Data.Repositories
 
         public async Task<bool> UserExists(string username)
         {
-            if(await _context.Users.AnyAsync(x => x.Username == username))
+            if(await _users.AnyAsync(x => x.Username == username))
                 return true;
 
             return false;
