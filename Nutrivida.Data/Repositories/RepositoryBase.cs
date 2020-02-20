@@ -56,7 +56,7 @@ namespace Nutrivida.Data.Repositories
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public virtual async Task Remove(TEntity obj)
+        public virtual async Task Delete(TEntity obj)
         {
             DbSet.Remove(await GetById(obj.Id));
             await SaveChanges();

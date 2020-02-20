@@ -14,11 +14,11 @@ using Nutrivida.Domain.Entities;
 
 namespace Nutrivida.Business.Services
 {
-    public class AuthService : ServiceBase<User>, IAuthService
+    public class AuthService : IAuthService
     {
         private readonly IHttpContextAccessor _httpContextAcessor;
 
-        public AuthService(IUserRepository _repository, IHttpContextAccessor httpContextAcessor, INotificationManager _gerenciadorNotificacoes, IMapper _mapper, IFluentValidation<User> _fluentValidation) : base(_repository, _gerenciadorNotificacoes, _mapper, _fluentValidation)
+        public AuthService(IHttpContextAccessor httpContextAcessor)
         {
             _httpContextAcessor = httpContextAcessor;
         }

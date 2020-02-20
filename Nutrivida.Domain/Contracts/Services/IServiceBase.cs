@@ -20,6 +20,8 @@ namespace Nutrivida.Domain.Contracts.Services
 
         Task Delete(int id);
 
+        Task<TEntity> DeleteLogically(TEntity obj);
+
         Task<TEntity> GetById(int id, bool? getDeletedRegisters = false);
 
         Task<TEntity> GetById(int id, IList<string> includes, bool? getDeletedRegisters = false);

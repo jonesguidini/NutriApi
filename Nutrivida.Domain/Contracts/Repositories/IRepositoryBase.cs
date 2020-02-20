@@ -13,7 +13,7 @@ namespace Nutrivida.Domain.Contracts.Repositories
 
         Task<TEntity> Update(TEntity obj);
 
-        Task Remove(TEntity obj);
+        Task Delete(TEntity obj);
 
         Task<TEntity> GetById(int id, bool? getDeletedRegisters = false);
 

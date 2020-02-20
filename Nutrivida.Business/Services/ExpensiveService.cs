@@ -15,7 +15,7 @@ namespace Nutrivida.Business.Services
     {
         private readonly ExpensiveValidation validation;
         private readonly IMapper mapper;
-        public ExpensiveService(ExpensiveValidation _validation, IExpensiveRepository _repository, INotificationManager _gerenciadorNotificacoes, IMapper _mapper, IFluentValidation<Expensive> _fluentValidation) : base(_repository, _gerenciadorNotificacoes, _mapper, _fluentValidation)
+        public ExpensiveService(ExpensiveValidation _validation, IExpensiveRepository _repository, INotificationManager _gerenciadorNotificacoes, IMapper _mapper, IFluentValidation<Expensive> _fluentValidation, IAuthService _authService) : base(_repository, _gerenciadorNotificacoes, _mapper, _fluentValidation, _authService)
         {
             validation = _validation;
             mapper = _mapper;

@@ -16,7 +16,7 @@ namespace Nutrivida.Business.Services
         private readonly FinancialRecordValidation validation;
         private readonly IMapper mapper;
 
-        public FinancialRecordsService(FinancialRecordValidation _validation, IFinancialRecordRepository _repository, INotificationManager _gerenciadorNotificacoes, IMapper _mapper, IFluentValidation<FinancialRecord> _fluentValidation) : base(_repository, _gerenciadorNotificacoes, _mapper, _fluentValidation)
+        public FinancialRecordsService(FinancialRecordValidation _validation, IFinancialRecordRepository _repository, INotificationManager _gerenciadorNotificacoes, IMapper _mapper, IFluentValidation<FinancialRecord> _fluentValidation, IAuthService _authService) : base(_repository, _gerenciadorNotificacoes, _mapper, _fluentValidation, _authService)
         {
             validation = _validation;
             mapper = _mapper;

@@ -16,7 +16,7 @@ namespace Nutrivida.Business.Services
     {
         private readonly SaleCategoryValidation validation;
         private readonly IMapper mapper;
-        public SaleCategoryService(SaleCategoryValidation _validation, ISaleCategoryRepository _repository, INotificationManager _gerenciadorNotificacoes, IMapper _mapper, IFluentValidation<SaleCategory> _fluentValidation) : base(_repository, _gerenciadorNotificacoes, _mapper, _fluentValidation)
+        public SaleCategoryService(SaleCategoryValidation _validation, ISaleCategoryRepository _repository, INotificationManager _gerenciadorNotificacoes, IMapper _mapper, IFluentValidation<SaleCategory> _fluentValidation, IAuthService _authService) : base(_repository, _gerenciadorNotificacoes, _mapper, _fluentValidation, _authService)
         {
             validation = _validation;
             mapper = _mapper;

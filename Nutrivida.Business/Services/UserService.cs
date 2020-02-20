@@ -9,7 +9,7 @@ namespace Nutrivida.Business.Services
 {
     public class UserService : ServiceBase<User>, IUserService
     {
-        public UserService(IUserRepository _repository, INotificationManager _gerenciadorNotificacoes, IMapper _mapper, IFluentValidation<User> _fluentValidation) : base(_repository, _gerenciadorNotificacoes, _mapper, _fluentValidation)
+        public UserService(IUserRepository _repository, INotificationManager _gerenciadorNotificacoes, IMapper _mapper, IFluentValidation<User> _fluentValidation, IAuthService _authService) : base(_repository, _gerenciadorNotificacoes, _mapper, _fluentValidation, _authService)
         {
         }
     }

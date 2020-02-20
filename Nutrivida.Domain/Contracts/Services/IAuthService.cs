@@ -6,7 +6,7 @@ using Nutrivida.Domain.Entities;
 
 namespace Nutrivida.Domain.Contracts.Services
 {
-    public interface IAuthService : IServiceBase<User>
+    public interface IAuthService
     {
         string GetClaims(string chave);
     }

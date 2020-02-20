@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace Nutrivida.Business.Services
@@ -23,17 +24,20 @@ namespace Nutrivida.Business.Services
         protected readonly IMapper mapper;
         protected readonly IFluentValidation<TEntity> fluentValidation;
         protected FluentValidation<TEntity> validationBase;
+        private readonly IAuthService authService;
 
         public ServiceBase(
             IRepositoryBase<TEntity> _repository,
             INotificationManager _notificationManager,
             IMapper _mapper,
-            IFluentValidation<TEntity> _fluentValidation
+            IFluentValidation<TEntity> _fluentValidation,
+            IAuthService _authService
             ) : base(_notificationManager)
         {
             repository = _repository;
             mapper = _mapper;
             fluentValidation = _fluentValidation;
+            authService = _authService;
 
             // configure Validation Base
             validationBase = new FluentValidation<TEntity>();
@@ -49,16 +53,6 @@ namespace Nutrivida.Business.Services
             }
 
             return obj;
-        }
-
-        public virtual async Task Delete(int id)
-        {
-            TEntity entity = await GetById(id);
-
-            if (entity != null)
-                await repository.Remove(entity);
-            else
-                await Notify(entity.GetType().Name, "O Objeto informado não existe.");
         }
 
         public virtual bool Validate<TV, TE>(TV validation, TE entity) where TV : AbstractValidator<TE> where TE : BaseEntity
@@ -88,6 +82,33 @@ namespace Nutrivida.Business.Services
             if (!Validate(new FluentValidation<TEntity>(), obj)) return null;
 
             return await repository.Update(obj);
+        }
+
+        public virtual async Task Delete(int id)
+        {
+            TEntity entity = await GetById(id);
+
+            if (entity != null)
+                await repository.Delete(entity);
+            else
+                await Notify(entity.GetType().Name, "O Objeto informado não existe.");
+        }
+
+        private void SetGenericPropertyValue(object obj, string property, object value)
+        {
+            var prop = obj.GetType().GetProperty(property, BindingFlags.Public | BindingFlags.Instance);
+            if (prop != null && prop.CanWrite)
+                prop.SetValue(obj, value, null);
+        }
+
+        public virtual async Task<TEntity> DeleteLogically(TEntity obj)
+        {
+            var userId = Convert.ToInt32(authService.GetClaims("UserId"));
+            SetGenericPropertyValue(obj, "IsDeleted", true);
+            SetGenericPropertyValue(obj, "DeletedByUserId", userId);
+            SetGenericPropertyValue(obj, "DateDeleted", DateTime.Now);
+
+            return await Update(obj);
         }
 
         public virtual async Task<TEntity> GetById(int id, bool? getDeletedRegisters = false)
@@ -202,6 +223,5 @@ namespace Nutrivida.Business.Services
         {
             GC.SuppressFinalize(this);
         }
-
     }
 }
