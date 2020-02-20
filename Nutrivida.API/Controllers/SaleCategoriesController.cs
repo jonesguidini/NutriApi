@@ -117,7 +117,8 @@ namespace Nutrivida.API.Controllers
                 return CustomResponse();
             }
 
-            await _SaleCategoryService.Delete(id);
+            await _SaleCategoryService.DeleteLogically(SaleCategory);
+
             return CustomResponse("Categoria de despesa excluida com sucesso!");
         }
 

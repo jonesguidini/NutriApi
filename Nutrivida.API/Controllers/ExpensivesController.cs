@@ -112,15 +112,15 @@ namespace Nutrivida.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Delete(int id)
         {
-            var expensiveCategory = await _expensiveService.GetById(id);
+            var expensive = await _expensiveService.GetById(id);
 
-            if (expensiveCategory == null)
+            if (expensive == null)
             {
                 NotificarError("Categoria de Despesa", "A Categoria de despesa informada não existe.");
                 return CustomResponse();
             }
 
-            await _expensiveService.Delete(id);
+            await _expensiveService.DeleteLogically(expensive);
             return CustomResponse("Categoria de despesa excluida com sucesso!");
         }
 

@@ -22,17 +22,14 @@ namespace Nutrivida.API.Controllers
     public class ExpensiveCategoriesController : APIController
     {
         private readonly IExpensiveCategoryService _expensiveCategoryService;
-        private readonly IAuthService _authService;
         private readonly IMapper _mapper;
         public ExpensiveCategoriesController(
             IExpensiveCategoryService expensiveCategoryService,
-            IAuthService authService,
             IMapper mapper, 
             INotificationManager _gerenciadorNotificacoes) : base(_gerenciadorNotificacoes)
         {
             _mapper = mapper;
             _expensiveCategoryService = expensiveCategoryService;
-            _authService = authService;
         }
 
         /// <summary>
@@ -46,7 +43,6 @@ namespace Nutrivida.API.Controllers
             // código de exemplo para trazer registros excluidos em vez de registros ativos
             //List<string> includes = new List<string> { "DeletedByUser" };
             //var expensiveCategories = await _expensiveCategoryService.GetAll(includes, true);
-
             var expensiveCategories = await _expensiveCategoryService.GetAll();
             var listExpensiveCategoryVM = _mapper.Map<IEnumerable<ExpensiveCategoryVM>>(expensiveCategories);
             return CustomResponse(listExpensiveCategoryVM);
@@ -128,13 +124,7 @@ namespace Nutrivida.API.Controllers
                 return CustomResponse();
             }
 
-            // configura a exclusão lógica
-            var userId = Convert.ToInt32(_authService.GetClaims("UserId"));
-            expensiveCategory.IsDeleted = true;
-            expensiveCategory.DeletedByUserId = userId;
-            expensiveCategory.DateDeleted = DateTime.Now;
-
-            await _expensiveCategoryService.Update(expensiveCategory);
+            await _expensiveCategoryService.DeleteLogically(expensiveCategory);
             return CustomResponse("Categoria de despesa excluida com sucesso!");
         }
 

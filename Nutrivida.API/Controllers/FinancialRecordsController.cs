@@ -90,7 +90,7 @@ namespace Nutrivida.API.Controllers
         {
             var financialRecordBanco = await _financialRecordService.GetById(id);
 
-            await _financialRecordService.Delete(id);
+            await _financialRecordService.DeleteLogically(financialRecordBanco);
 
             return CustomResponse("Registro financeiro excluido com sucesso");
         }
