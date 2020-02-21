@@ -129,5 +129,40 @@
             <param name="TipoOrderBy">Tipo de ordenação</param>
             <returns></returns>
         </member>
+        <member name="M:Nutrivida.API.Controllers.SalesController.GetAll">
+            <summary>
+            Retornar todas categorias de despesas
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Nutrivida.API.Controllers.SalesController.GetById(System.Int32)">
+            <summary>
+            Retornar categoria de despesa filtrado pelo parametro 'id'
+            </summary>
+            <param name="id">Parâmetro para filtro por ID </param>
+            <returns></returns>
+        </member>
+        <member name="M:Nutrivida.API.Controllers.SalesController.Create(Nutrivida.Domain.DTOs.SaleDTO)">
+            <summary>
+            Criar nova categoria de despesa
+            </summary>
+            <param name="saleDTO">Objeto informado para cadastro do registro</param>
+            <returns></returns>
+        </member>
+        <member name="M:Nutrivida.API.Controllers.SalesController.Update(System.Int32,Nutrivida.Domain.DTOs.SaleDTO)">
+            <summary>
+            Atualizar categoria de despesa
+            </summary>
+            <param name="id">Parâmetro para filtro da categoria a ser alterada</param>
+            <param name="saleDTO">Objeto da categoria a ser alterada </param>
+            <returns></returns>
+        </member>
+        <member name="M:Nutrivida.API.Controllers.SalesController.Delete(System.Int32)">
+            <summary>
+            Excluir categoria de despesa
+            </summary>
+            <param name="id">Parâmetro para filtro da categoria a ser exclu´´ida</param>
+            <returns></returns>
+        </member>
     </members>
 </doc>

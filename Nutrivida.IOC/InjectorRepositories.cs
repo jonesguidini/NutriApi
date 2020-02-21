@@ -5,7 +5,7 @@ using Nutrivida.Domain.Contracts.Repositories;
 namespace Nutrivida.IOC
 {
     /// <summary>
-    /// Injeta os repositories no autofac
+    /// Classe responsável por injetar repositories  na aplicação usando autofac
     /// </summary>
     public static class InjectorRepositories
     {
@@ -16,7 +16,6 @@ namespace Nutrivida.IOC
         public static void ConfigureRepositories(this ContainerBuilder builder)
         {
             builder.RegisterGeneric(typeof(RepositoryBase<>)).As(typeof(IRepositoryBase<>));
-            //builder.RegisterGeneric(typeof(BaseIdentityRepository<>)).As(typeof(IIdentityRepository<>));
 
             builder.RegisterAssemblyTypes(typeof(RepositoryBase<>).Assembly)
             .Where(t => t.Name.EndsWith("Repository"))
