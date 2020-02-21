@@ -26,7 +26,6 @@ namespace Nutrivida.API.Controllers
         }
 
         [HttpGet]
-        [AllowAnonymous]
         public async Task<IActionResult> GetAll()
         {
             var users = await _userRepository.GetAll();
