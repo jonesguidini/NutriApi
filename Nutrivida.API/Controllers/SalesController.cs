@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Nutrivida.Domain.Contracts.Managers;
@@ -10,8 +11,9 @@ using Nutrivida.Domain.VMs;
 
 namespace Nutrivida.API.Controllers
 {
-    //[Authorize]
-    [Route("api/sales")]
+    [Authorize]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/sales")]
     [ApiController]
     public class SalesController : APIController
     {

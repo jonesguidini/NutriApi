@@ -13,7 +13,8 @@ using System.Threading.Tasks;
 namespace Nutrivida.API.Controllers
 {
     [Authorize]
-    [Route("api/users")]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/users")]
     [ApiController]
     public class UsersController : APIController
     {

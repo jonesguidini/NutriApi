@@ -14,8 +14,9 @@ using System.Threading.Tasks;
 
 namespace Nutrivida.API.Controllers
 {
-    //[Authorize]
-    [Route("api/financialrecords")]
+    [Authorize]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/financialrecords")]
     [ApiController]
     public class FinancialRecordsController : APIController
     {
